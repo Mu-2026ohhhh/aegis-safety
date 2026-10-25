@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
+import { HtmlLang } from "@/components/platform/html-lang";
+import { ToastProvider } from "@/components/platform/ui";
 import { routing } from "@/i18n/routing";
+import { SessionProvider } from "@/lib/platform/session";
+import { PrototypeStoreProvider } from "@/lib/platform/store";
 
 export const instant = false;
 
@@ -22,7 +26,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Metadata" });
-  const baseUrl = "https://aegis.safety";
+  const baseUrl = (
+    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+  ).replace(/\/$/, "");
 
   return {
     title: t("title"),
@@ -57,7 +63,12 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      {children}
+      <HtmlLang locale={locale} />
+      <ToastProvider>
+        <PrototypeStoreProvider>
+          <SessionProvider>{children}</SessionProvider>
+        </PrototypeStoreProvider>
+      </ToastProvider>
     </NextIntlClientProvider>
   );
 }

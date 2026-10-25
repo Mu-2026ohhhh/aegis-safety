@@ -1,0 +1,1529 @@
+{
+  "Metadata": {
+    "title": "Aegis — Content safety platform",
+    "description": "Text and image content safety, policy rules, workflow orchestration, and release governance for enterprise teams. This prototype uses simulated moderation results."
+  },
+  "Site": {
+    "brand": "Aegis",
+    "footerBlurb": "A prototype content safety platform for rules, workflows, model capabilities, and release governance.",
+    "rights": "Prototype interface. Not a production service.",
+    "pageStatus": "Page {page} of {pages} · {total} rows",
+    "previous": "Previous",
+    "next": "Next",
+    "close": "Close",
+    "copy": "Copy",
+    "copied": "Copied",
+    "copyFailed": "Could not copy",
+    "mockBadge": "Demo result",
+    "all": "All",
+    "view": "View",
+    "edit": "Edit",
+    "copyAction": "Copy",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "PublicNav": {
+    "products": "Capabilities",
+    "useCases": "Use cases",
+    "docs": "API docs",
+    "playground": "Playground",
+    "pricing": "Pricing",
+    "login": "Log in",
+    "startTesting": "Start testing",
+    "tryPlayground": "Try Playground",
+    "readDocs": "Read API docs",
+    "menu": "Open menu",
+    "product": "Product",
+    "developers": "Developers",
+    "quickstart": "Quick start",
+    "errors": "Error codes",
+    "language": "Language",
+    "privacy": "Privacy policy",
+    "terms": "Terms of service",
+    "contact": "Contact sales",
+    "console": "Console"
+  },
+  "Home": {
+    "eyebrow": "Content safety platform",
+    "title": "Moderate content, govern policy, and release with a traceable version.",
+    "subtitle": "Aegis gives enterprise teams one place to test text and image safety, configure rules, orchestrate workflows, and review simulated release decisions.",
+    "mockNotice": "Public testing uses simulated decisions. Results are marked as demo output and are not model judgments.",
+    "capabilitiesTitle": "Product capabilities",
+    "capabilitiesIntro": "The prototype separates detection, policy, orchestration, and release so each can evolve on its own.",
+    "capabilities": [
+      {
+        "title": "Text moderation",
+        "description": "Check user text against demo scenes and return allow, block, review, or a service error."
+      },
+      {
+        "title": "Image moderation",
+        "description": "Preview a local image, validate type and size, and show a simulated image decision."
+      },
+      {
+        "title": "Rules and policy",
+        "description": "Create keyword, ignore-term, regex, structured, and model-threshold rules with versions."
+      },
+      {
+        "title": "Visual workflows",
+        "description": "Connect start, rules, branches, model calls, merge, and end nodes on a canvas."
+      },
+      {
+        "title": "Model capabilities",
+        "description": "Register simulated platform capabilities. The catalog does not call a live model."
+      },
+      {
+        "title": "Decision trace",
+        "description": "Keep the final decision separate from timeouts and service failures."
+      },
+      {
+        "title": "Evaluation and release",
+        "description": "Run a mirror evaluation and a baseline regression before a simulated publish or rollback."
+      }
+    ],
+    "viewProducts": "Explore capabilities",
+    "scenesTitle": "Example use cases",
+    "scenesIntro": "These are product scenarios, not customer case studies or compliance certifications.",
+    "scenes": [
+      {
+        "title": "User-generated content",
+        "description": "Review posts and comments before they reach a community."
+      },
+      {
+        "title": "Community governance",
+        "description": "Combine keyword rules with a human-review path for ambiguous cases."
+      },
+      {
+        "title": "Enterprise content compliance",
+        "description": "Keep policy versions, evaluation notes, and release records together."
+      },
+      {
+        "title": "AI input and output",
+        "description": "Screen prompts and model replies with a separate workflow."
+      },
+      {
+        "title": "Multi-model detection",
+        "description": "Register more than one capability and choose when a workflow calls it."
+      }
+    ],
+    "flowTitle": "How a team would adopt it",
+    "stepLabel": "Step {index}",
+    "steps": [
+      "Read the API contract",
+      "Run a sample in the playground",
+      "Submit your own demo text or image",
+      "Inspect the decision and JSON",
+      "Plan the API integration",
+      "Configure rules and a workflow in the console"
+    ],
+    "previewKicker": "Sample decision",
+    "previewMock": "Simulated",
+    "previewSample": "Thanks for the update. The office closes at 6.",
+    "previewDecisionLabel": "Decision",
+    "previewDecision": "Allow",
+    "previewChips": [
+      {
+        "label": "Politics",
+        "score": "0.04"
+      },
+      {
+        "label": "Adult",
+        "score": "0.01"
+      },
+      {
+        "label": "Other risk",
+        "score": "0.08"
+      }
+    ],
+    "stages": [
+      {
+        "kicker": "01",
+        "title": "Read the exchange",
+        "body": "Text, images, and model output enter one surface, with the application and channel attached."
+      },
+      {
+        "kicker": "02",
+        "title": "Judge it against policy",
+        "body": "Rules, labels, and model scores produce one of three outcomes: allow, block, or human review."
+      },
+      {
+        "kicker": "03",
+        "title": "Enforce before it ships",
+        "body": "The decision is returned to the product. A failed check stays an error and never becomes an allow."
+      }
+    ]
+  },
+  "Products": {
+    "eyebrow": "Capabilities",
+    "title": "What the platform is responsible for",
+    "description": "Detection, policy, orchestration, and release stay in separate modules. This page describes the prototype, not a live production deployment.",
+    "items": [
+      {
+        "title": "Moderation APIs",
+        "description": "Text and image contracts share one response shape.",
+        "points": [
+          "allow, block, and review are decisions",
+          "service failures use status error and a null decision",
+          "every prototype response sets is_mock to true"
+        ]
+      },
+      {
+        "title": "Policy rules",
+        "description": "Operators edit a candidate version instead of overwriting a published rule.",
+        "points": [
+          "keyword, ignore term, regex, structured condition, and model threshold",
+          "draft through published statuses",
+          "version history stays attached to the rule"
+        ]
+      },
+      {
+        "title": "Workflows and decisions",
+        "description": "A workflow orders rule checks, model calls, branches, and a merge policy.",
+        "points": [
+          "no arbitrary scripts",
+          "validation before a simulated run",
+          "merge policy is explicit"
+        ]
+      },
+      {
+        "title": "Release governance",
+        "description": "Evaluation passing is not the same as publishing.",
+        "points": [
+          "static validation",
+          "mirror evaluation",
+          "baseline regression blocks publish when it fails"
+        ]
+      }
+    ],
+    "exampleTitle": "Example response",
+    "exampleBody": "The same object is used in the docs and the playground."
+  },
+  "UseCases": {
+    "eyebrow": "Use cases",
+    "title": "Capability combinations by scenario",
+    "description": "Each scenario shows which modules work together. Nothing here is an industry certification or a promise about a specific customer.",
+    "items": [
+      {
+        "title": "User-generated content",
+        "description": "Screen posts before they are stored.",
+        "stack": "Text moderation, keyword rules, and a review queue."
+      },
+      {
+        "title": "Community and social platforms",
+        "description": "Separate comments from long-form posts with different scenes.",
+        "stack": "Scene scope, rule versions, and audit traces."
+      },
+      {
+        "title": "Enterprise content compliance",
+        "description": "Keep a record of which policy version produced a decision.",
+        "stack": "Execution plans, evaluations, and release records."
+      },
+      {
+        "title": "AI application input and output",
+        "description": "Check prompts and completions with a model capability in the workflow.",
+        "stack": "Model invocation, timeout handling, and review."
+      },
+      {
+        "title": "Multi-model safety checks",
+        "description": "Register several capabilities and let the workflow decide when to call them.",
+        "stack": "Capability center plus result merge."
+      }
+    ]
+  },
+  "PricingPage": {
+    "eyebrow": "Pricing",
+    "title": "Example packaging",
+    "description": "Names describe how a commercial offer could be structured. They are not a quote.",
+    "demoNotice": "Prices, quotas, and contract terms are not published here. Contact sales for a real proposal. This page is a demo.",
+    "contactSales": "Contact sales",
+    "plans": [
+      {
+        "name": "Trial",
+        "audience": "For evaluation teams",
+        "points": [
+          "Playground access",
+          "Sample API contract",
+          "No production quota is included"
+        ]
+      },
+      {
+        "name": "Professional",
+        "audience": "For a single product team",
+        "points": [
+          "Rule and workflow configuration",
+          "Evaluation workspace",
+          "Commercial limits are confirmed with sales"
+        ]
+      },
+      {
+        "name": "Enterprise",
+        "audience": "For multiple applications",
+        "points": [
+          "Tenant and scene scope",
+          "Release records",
+          "Security review before any production connection"
+        ]
+      }
+    ]
+  },
+  "Contact": {
+    "eyebrow": "Contact",
+    "title": "Talk with sales",
+    "description": "Tell us about the team and the workflow you want to moderate. This form stays in the browser.",
+    "demoNotice": "Submitting this form does not email a sales team. It only checks the fields and shows a demo confirmation.",
+    "company": "Company",
+    "name": "Contact name",
+    "email": "Work email",
+    "need": "What do you need?",
+    "companyError": "Enter a company name.",
+    "nameError": "Enter a contact name.",
+    "emailError": "Enter a valid email address.",
+    "needError": "Describe the request in at least a short sentence.",
+    "submit": "Submit demo request",
+    "successTitle": "Demo request saved in this browser only",
+    "successBody": "Nothing was sent to a sales team or stored on a server."
+  },
+  "Legal": {
+    "eyebrow": "Legal placeholder",
+    "placeholder": "This is placeholder legal text for the prototype. It is not a privacy policy or a contract.",
+    "privacy": {
+      "title": "Privacy policy",
+      "description": "A future production site needs a real privacy policy before collecting customer data.",
+      "paragraphs": [
+        "The playground keeps image previews in memory and does not upload them.",
+        "Prototype console data is stored in this browser and is not a customer database.",
+        "Do not submit personal data, secrets, or customer content."
+      ]
+    },
+    "terms": {
+      "title": "Terms of service",
+      "description": "A future production site needs reviewed terms before offering a paid service.",
+      "paragraphs": [
+        "Simulated decisions must not be used as a production moderation result.",
+        "The console is an internal prototype and is not access-controlled.",
+        "API examples use the placeholder YOUR_API_KEY and do not grant access."
+      ]
+    }
+  },
+  "Docs": {
+    "title": "Documentation",
+    "contents": "Contents",
+    "onThisPage": "On this page",
+    "openPlayground": "Open playground",
+    "contractNotice": "This contract is a prototype example. A production API must be served by a backend and may change the fields before launch.",
+    "missing": "This document was not found.",
+    "request": "Request",
+    "response": "Response",
+    "code": "Code",
+    "meaning": "Meaning",
+    "nav": {
+      "overview": "Overview",
+      "quickstart": "Quick start",
+      "authentication": "Authentication",
+      "text-moderation": "Text moderation",
+      "image-moderation": "Image moderation",
+      "errors": "Error codes"
+    },
+    "limits": {
+      "types": "Accepted image types: {types}.",
+      "size": "Maximum image size: {size}.",
+      "timeout": "Documented request timeout: {timeout} ms.",
+      "rate": "Playground demo quota: {count} runs per minute in this browser.",
+      "text": "Maximum text length: {count} characters."
+    },
+    "errors": {
+      "400": "The request body or file is invalid.",
+      "401": "The credential is missing or rejected.",
+      "403": "The credential does not have access to this resource.",
+      "413": "The request or file is larger than the limit.",
+      "429": "The client sent too many requests.",
+      "500": "The service failed internally.",
+      "503": "The moderation dependency is unavailable."
+    },
+    "pages": {
+      "overview": {
+        "title": "Overview",
+        "description": "The public docs describe the example moderation contract. They do not require a login.",
+        "sections": [
+          {
+            "id": "what",
+            "title": "What you can call",
+            "paragraphs": [
+              "The prototype documents POST /v1/moderation/text and POST /v1/moderation/image.",
+              "Both return the same decision envelope."
+            ]
+          },
+          {
+            "id": "areas",
+            "title": "How the product is split",
+            "paragraphs": [
+              "Rules manage policy. Workflows decide the order of checks. The capability center registers models. A merge policy produces allow, block, or review.",
+              "A service error is not turned into a decision."
+            ]
+          },
+          {
+            "id": "mock",
+            "title": "Demo boundary",
+            "paragraphs": [
+              "Responses in this website set is_mock to true. The playground does not call a hosted model."
+            ]
+          }
+        ]
+      },
+      "quickstart": {
+        "title": "Quick start",
+        "description": "Use these steps to read the contract. The host api.example.com is illustrative.",
+        "sections": [
+          {
+            "id": "choose",
+            "title": "1. Choose an endpoint",
+            "paragraphs": [
+              "Use the text endpoint for a string and the image endpoint for an image reference."
+            ]
+          },
+          {
+            "id": "auth",
+            "title": "2. Understand authentication",
+            "paragraphs": [
+              "A future server will require a bearer token. The sample value is YOUR_API_KEY."
+            ]
+          },
+          {
+            "id": "request",
+            "title": "3. Build and send a request",
+            "paragraphs": [
+              "Send JSON with a scene id. The playground uses the same text fields."
+            ]
+          },
+          {
+            "id": "response",
+            "title": "4. Read the response",
+            "paragraphs": [
+              "When status is success, decision is allow, block, or review. When status is error, decision is null."
+            ]
+          },
+          {
+            "id": "errors",
+            "title": "5. Handle errors",
+            "paragraphs": [
+              "Branch on status before reading decision. Do not treat an error as allow."
+            ]
+          }
+        ]
+      },
+      "authentication": {
+        "title": "Authentication",
+        "description": "Production calls should use a server-side credential. This site does not contain a real key.",
+        "sections": [
+          {
+            "id": "model",
+            "title": "Credential model",
+            "paragraphs": [
+              "The planned API authenticates with a bearer token issued on the server. Browser apps should call your own backend, not store a secret."
+            ]
+          },
+          {
+            "id": "header",
+            "title": "Example header",
+            "paragraphs": [
+              "Replace the placeholder only on a server you control."
+            ]
+          },
+          {
+            "id": "placeholder",
+            "title": "Placeholder only",
+            "paragraphs": [
+              "YOUR_API_KEY is not a credential. The console does not issue keys in this prototype."
+            ]
+          }
+        ]
+      },
+      "text-moderation": {
+        "title": "Text moderation",
+        "description": "POST /v1/moderation/text checks a string and returns the shared envelope.",
+        "sections": [
+          {
+            "id": "endpoint",
+            "title": "Endpoint",
+            "paragraphs": [
+              "Method: POST. Path: /v1/moderation/text. Body: JSON."
+            ]
+          },
+          {
+            "id": "fields",
+            "title": "Fields",
+            "paragraphs": [
+              "text is the content. scene_id selects a configured scene. metadata.source identifies the caller, such as playground."
+            ]
+          },
+          {
+            "id": "example",
+            "title": "Example",
+            "paragraphs": [
+              "The review sample below is the canonical example used across the site."
+            ]
+          },
+          {
+            "id": "errors",
+            "title": "Errors",
+            "paragraphs": [
+              "An empty body or a string over the shared character limit returns 400. Rate limiting returns 429. A dependency outage returns 503 and no decision."
+            ]
+          }
+        ]
+      },
+      "image-moderation": {
+        "title": "Image moderation",
+        "description": "POST /v1/moderation/image describes the future image contract. The playground never uploads the file.",
+        "sections": [
+          {
+            "id": "endpoint",
+            "title": "Endpoint",
+            "paragraphs": [
+              "Method: POST. Path: /v1/moderation/image."
+            ]
+          },
+          {
+            "id": "inputs",
+            "title": "Input methods",
+            "paragraphs": [
+              "The documented JSON input is an image_url. A future multipart upload can send the bytes to your server.",
+              "The playground reads the file locally, checks type and size, and discards it when you leave the page."
+            ]
+          },
+          {
+            "id": "example",
+            "title": "Example",
+            "paragraphs": [
+              "Limits below come from the same configuration as the playground."
+            ]
+          },
+          {
+            "id": "safety",
+            "title": "Data handling",
+            "paragraphs": [
+              "Do not send secrets in image metadata. A production proxy must limit size, type, rate, and retention before any model sees the file."
+            ]
+          }
+        ]
+      },
+      "errors": {
+        "title": "Error codes",
+        "description": "These codes are the prototype contract. Confirm them with the backend before a production launch.",
+        "sections": [
+          {
+            "id": "catalog",
+            "title": "Catalog",
+            "paragraphs": [
+              "An error response uses status error. It does not include a moderation decision."
+            ]
+          },
+          {
+            "id": "separation",
+            "title": "Do not coerce errors",
+            "paragraphs": [
+              "A timeout or a 503 must stay an error. It must not be stored as allow, block, or review."
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "Play": {
+    "title": "Playground",
+    "description": "Run a simulated text or image check. No account is required, and the sample stays in this browser.",
+    "dataNotice": "Text stays in this page until you refresh. Images are previewed locally and are not uploaded. Demo quota is enforced only in this browser.",
+    "textMode": "Text moderation",
+    "imageMode": "Image moderation",
+    "scene": "Scene",
+    "scenes": {
+      "default": "Default scene",
+      "ugc": "User posts",
+      "ai": "Model input and output"
+    },
+    "sampleNames": {
+      "safe": "Allow sample",
+      "risk": "Block sample",
+      "review": "Review sample",
+      "outage": "Service error",
+      "custom": "Custom text"
+    },
+    "samples": {
+      "safe": "Thanks for the update. The community guidelines look clear.",
+      "risk": "This fixture includes DEMO_BLOCK_TOKEN for a policy test.",
+      "review": "This fixture includes DEMO_REVIEW_TOKEN and should be checked by a person.",
+      "outage": "This fixture includes DEMO_OUTAGE to simulate a dependency failure."
+    },
+    "imageSampleNames": {
+      "safe": "Allow sample",
+      "risk": "Block sample",
+      "review": "Review sample",
+      "outage": "Service error"
+    },
+    "textInput": "Text",
+    "textHint": "Up to {max} characters. Business-looking sample tokens are fictional.",
+    "textRequired": "Enter some text before running the test.",
+    "inputError": "Check the input",
+    "clear": "Clear",
+    "reset": "Reset",
+    "run": "Run test",
+    "running": "Running demo check…",
+    "emptyResult": "Run a test to see the demo decision and JSON.",
+    "requestJson": "Request",
+    "responseJson": "Response",
+    "chooseImage": "Choose image",
+    "replaceImage": "Replace image",
+    "removeImage": "Remove image",
+    "dropHint": "Choose a JPEG, PNG, or WebP image. It stays in the browser.",
+    "previewAlt": "Selected image preview",
+    "unknownType": "Unknown type",
+    "unsupportedType": "This file type is not supported.",
+    "fileTooLarge": "The file is larger than {size}.",
+    "fileRequired": "Choose an image before running the test.",
+    "imageLimits": "Types: {types}. Max size: {size}. Documented timeout: {timeout} ms.",
+    "serviceError": "Service error {code}",
+    "serviceErrorBody": "This is not an allow, block, or review decision.",
+    "reasons": {
+      "safe": "Demo sample did not match a risk rule.",
+      "risk": "Demo sample matched a block rule.",
+      "review": "Demo sample was routed to human review.",
+      "outage": "Demo moderation dependency is unavailable.",
+      "tooLong": "The text is longer than the configured limit.",
+      "rateLimit": "Demo browser quota reached. Retry in {seconds} seconds."
+    },
+    "imageReasons": {
+      "safe": "Demo image sample returned allow.",
+      "risk": "Demo image sample returned block.",
+      "review": "Demo image sample returned review.",
+      "outage": "Demo image dependency is unavailable."
+    },
+    "fields": {
+      "requestId": "request_id",
+      "status": "status",
+      "decision": "decision",
+      "reason": "reason",
+      "latency": "latency_ms",
+      "latencyValue": "{value} ms, simulated",
+      "mock": "is_mock",
+      "labels": "risk_labels",
+      "noLabels": "No risk labels",
+      "notADecision": "No decision, because the call failed"
+    }
+  },
+  "Auth": {
+    "notConnected": "This form does not call an authentication service and does not check the password. After you submit, this browser stores the role and tenant so the console can filter records.",
+    "name": "Name",
+    "email": "Work email",
+    "password": "Password",
+    "confirm": "Confirm password",
+    "nameError": "Enter your name.",
+    "emailError": "Enter a valid email address.",
+    "passwordError": "Use at least 8 characters. The value is not stored.",
+    "confirmError": "The passwords do not match.",
+    "openConsole": "Open the prototype console",
+    "toLogin": "Log in",
+    "toRegister": "Create an account",
+    "toForgot": "Forgot password",
+    "login": {
+      "title": "Log in",
+      "description": "Preview the sign-in form. It will not authenticate you.",
+      "submit": "Continue",
+      "successTitle": "Prototype session saved",
+      "successBody": "This browser will filter the console to the selected tenant. It is not server authentication, and the console remains unprotected."
+    },
+    "register": {
+      "title": "Create an account",
+      "description": "Preview registration. Passwords are checked locally and then discarded.",
+      "submit": "Create demo account",
+      "successTitle": "Registration was not sent",
+      "successBody": "No account was created. You can still open the prototype console."
+    },
+    "forgot": {
+      "title": "Reset password",
+      "description": "Preview the reset form. No email will be sent.",
+      "submit": "Send reset link",
+      "successTitle": "No reset email was sent",
+      "successBody": "A production system would email a reset link after it verifies the account. This prototype did not."
+    }
+  },
+  "Console": {
+    "title": "Operations console",
+    "subtitle": "Internal prototype",
+    "internal": "Internal",
+    "accessNotice": "This console is a prototype. A signed-in tenant filter runs in the browser and is not server isolation or authorization.",
+    "overviewTitle": "Overview",
+    "overviewBody": "Rules, workflows, capabilities, evaluations, and releases are separate records. Counts come from the local prototype store.",
+    "rulesBoundaryTitle": "Rules",
+    "rulesBoundaryBody": "Rules define a match and a recommended action. Editing a published rule creates a candidate version.",
+    "workflowBoundaryTitle": "Workflows",
+    "workflowBoundaryBody": "A workflow orders rule checks, model calls, branches, and a merge. A valid graph is not an approval to publish.",
+    "decisionBoundaryTitle": "Decisions",
+    "decisionBoundaryBody": "The merge policy returns allow, block, or review. Timeouts stay errors and do not become decisions.",
+    "nav": {
+      "overview": "Overview",
+      "rules": "Rules",
+      "workflows": "Workflows",
+      "capabilities": "Capabilities",
+      "lab": "Evaluation lab",
+      "releases": "Releases",
+      "audit": "Audit log",
+      "tasks": "Async tasks",
+      "settings": "Settings",
+      "templates": "Templates",
+      "labels": "Labels",
+      "tuning": "Model tuning",
+      "insights": "Insights",
+      "org": "Applications",
+      "variables": "Variables",
+      "libraries": "Libraries",
+      "knowledge": "Knowledge",
+      "llmLab": "Model lab",
+      "intercept": "Case test",
+      "query": "Log query",
+      "samples": "Sample library"
+    },
+    "groups": {
+      "desk": "Desk",
+      "policy": "Policy",
+      "detect": "Detection",
+      "org": "Organization"
+    },
+    "queueTitle": "Review queue",
+    "queueSample": "A community post asks for a policy check before it is shown to other members.",
+    "queueDecision": "Recommended action",
+    "queueAction": "Send to human review",
+    "openQueue": "Open the log",
+    "signalTitle": "Simulated label volume this month",
+    "simulated": "Simulated"
+  },
+  "Enums": {
+    "decision": {
+      "allow": "Allow",
+      "block": "Block",
+      "review": "Review",
+      "none": "No decision"
+    },
+    "status": {
+      "draft": "Draft",
+      "evaluating": "Evaluating",
+      "pending_evaluation": "Pending evaluation",
+      "evaluation_passed": "Evaluation passed",
+      "pending_release": "Pending release",
+      "published": "Published",
+      "rolled_back": "Rolled back",
+      "disabled": "Disabled",
+      "archived": "Archived",
+      "enabled": "Enabled",
+      "queued": "Queued",
+      "running": "Running",
+      "completed": "Completed",
+      "partially_failed": "Partially failed",
+      "failed": "Failed",
+      "cancelled": "Cancelled"
+    },
+    "ruleType": {
+      "keyword": "Keyword",
+      "ignore_term": "Ignore term",
+      "regex": "Regex",
+      "structured": "Structured condition",
+      "model_threshold": "Model threshold"
+    },
+    "scopes": {
+      "ten_demo": "Demo tenant",
+      "app_community": "Community app",
+      "app_assistant": "Assistant app",
+      "scene_ugc": "User posts",
+      "scene_comments": "Comments",
+      "scene_ai_io": "Model input and output",
+      "default": "Default scene",
+      "ten_retail": "Demo retail",
+      "app_shop": "Shop"
+    },
+    "matchMode": {
+      "contains": "Contains",
+      "exact": "Exact",
+      "word": "Whole word"
+    },
+    "textScope": {
+      "all": "All text",
+      "user_text": "User text",
+      "model_output": "Model output"
+    },
+    "operator": {
+      "eq": "Equals",
+      "neq": "Not equal",
+      "contains": "Contains",
+      "gt": "Greater than",
+      "lt": "Less than"
+    },
+    "capabilities": {
+      "cap_text_small": "Text small model",
+      "cap_text_llm": "Platform large model",
+      "cap_image_small": "Image content model",
+      "cap_ocr_helper": "Text recognition",
+      "cap_politics_model": "Political-content model",
+      "cap_adult_model": "Adult-content model",
+      "cap_politics_keywords": "Political sensitive terms",
+      "cap_adult_small": "Adult-content small model",
+      "cap_platform_llm_plus": "Platform large model plus"
+    },
+    "capabilityType": {
+      "inhouse_small": "Small model",
+      "inhouse_llm": "Large model",
+      "keyword_list": "Sensitive-term list",
+      "other": "Other service"
+    },
+    "provider": {
+      "aegis": "Aegis demo"
+    },
+    "modality": {
+      "text": "Text",
+      "image": "Image"
+    },
+    "versionState": {
+      "active": "Active",
+      "retired": "Retired"
+    },
+    "trace": {
+      "start": "Start",
+      "rule_hit": "Rule hit",
+      "rule_miss": "Rule miss",
+      "branch_true": "Branch matched",
+      "branch_false": "Branch missed",
+      "model_ok": "Model returned",
+      "model_error": "Model failed",
+      "merge": "Merge",
+      "end": "End"
+    },
+    "taskType": {
+      "bulk_text_review": "Bulk text review",
+      "baseline_regression": "Baseline regression",
+      "image_backfill": "Image backfill",
+      "export_audit": "Audit export"
+    }
+  },
+  "Rules": {
+    "title": "Rules",
+    "description": "Manage rule versions separately from the published pointer. Names you type are kept as business data when the language changes.",
+    "businessData": "Rule names, descriptions, and notes are business data. Switching language does not translate them.",
+    "create": "New rule",
+    "search": "Search",
+    "searchPlaceholder": "Name or rule ID",
+    "type": "Type",
+    "status": "Status",
+    "scope": "Scope",
+    "resetFilters": "Reset filters",
+    "emptyTitle": "No rules match",
+    "emptyBody": "Change the filters or create a rule.",
+    "columns": {
+      "id": "Rule ID",
+      "name": "Name",
+      "type": "Type",
+      "scope": "Scope",
+      "action": "Action",
+      "version": "Version",
+      "status": "Status",
+      "updated": "Updated",
+      "actions": "Actions"
+    },
+    "liveCandidate": "A published version is still live. This row is the candidate.",
+    "copySuffix": "copy",
+    "copied": "Rule copied as a draft",
+    "editTitle": "Edit candidate",
+    "detailTitle": "Rule detail",
+    "formHelp": "Required fields depend on the rule type.",
+    "forkNotice": "This version is live. Saving creates a new draft candidate and leaves the live version in place.",
+    "name": "Rule name",
+    "descriptionLabel": "Description",
+    "tenant": "Tenant",
+    "application": "Application",
+    "scene": "Scene",
+    "action": "Recommended action",
+    "priority": "Priority",
+    "terms": "Terms, one per line",
+    "matchMode": "Match mode",
+    "exclusions": "Exclusions, one per line",
+    "textScope": "Text scope",
+    "pattern": "Regular expression",
+    "flags": "Flags",
+    "sampleText": "Sample text",
+    "testRegex": "Test expression locally",
+    "regexMatched": "Matched: {values}",
+    "regexNone": "The expression is valid and did not match the sample.",
+    "regexErrors": {
+      "empty": "Enter an expression.",
+      "too_long": "The expression is too long for the local test.",
+      "invalid": "The expression is not valid."
+    },
+    "field": "Field",
+    "operator": "Operator",
+    "value": "Value",
+    "capability": "Capability",
+    "feature": "Feature",
+    "threshold": "Threshold from 0 to 1",
+    "notes": "Notes",
+    "summary": "Change summary",
+    "history": "Version history",
+    "disable": "Disable",
+    "disabled": "Rule disabled",
+    "restore": "Restore",
+    "restored": "Rule restored",
+    "archive": "Archive",
+    "archived": "Rule archived",
+    "submitEval": "Mark pending evaluation",
+    "submitted": "Status moved to pending evaluation",
+    "created": "Draft rule created",
+    "updated": "Candidate saved",
+    "forked": "New candidate version created",
+    "statusDraft": "The candidate is a draft until it is evaluated again.",
+    "saveFailed": "The rule could not be saved",
+    "validationTitle": "Complete the highlighted fields",
+    "archivedError": "Archived rules cannot be edited",
+    "errors": {
+      "name": "Enter a name.",
+      "description": "Enter a description.",
+      "priority": "Use a priority from 1 to 100.",
+      "terms": "Add at least one term.",
+      "regex": "The regular expression is not valid.",
+      "structured": "Enter a field and a value.",
+      "model": "Choose a capability and a feature.",
+      "threshold": "Use a threshold from 0 to 1."
+    }
+  },
+  "Workflows": {
+    "title": "Workflows",
+    "description": "The example graph runs a rule, branches, optionally calls a simulated model, merges the result, and ends. Nothing here calls a production model.",
+    "loading": "Loading the canvas…",
+    "create": "New workflow",
+    "newName": "Untitled workflow",
+    "newDescription": "Start connected to end. Add the other nodes before publishing.",
+    "created": "Workflow created",
+    "copied": "Workflow copied",
+    "copySuffix": "copy",
+    "workflow": "Workflow",
+    "name": "Name",
+    "discard": "Discard unsaved canvas changes?",
+    "unsaved": "Unsaved changes",
+    "savedState": "Saved",
+    "saved": "Workflow saved",
+    "forked": "Candidate version created",
+    "forkedHelp": "The published graph was not overwritten.",
+    "saveFailed": "The workflow could not be saved",
+    "palette": "Nodes",
+    "inspector": "Configuration",
+    "selectNode": "Select a node to edit it. Drag between handles to connect. Press Delete to remove a selected node or edge.",
+    "descriptionLabel": "Description",
+    "summary": "Change summary",
+    "validate": "Validate",
+    "valid": "The graph passed validation",
+    "invalid": "Validation found problems",
+    "sample": "Demo input",
+    "run": "Run test",
+    "running": "Running…",
+    "simNotice": "The run is a local simulation. A timeout stays an error and does not become allow, block, or review.",
+    "issueTitle": "Validation issues",
+    "resultTitle": "Simulation",
+    "resultError": "The run did not produce a decision",
+    "finalDecision": "Final decision",
+    "missingTitle": "Workflow missing",
+    "missingBody": "Choose another workflow.",
+    "nodeName": "Node name",
+    "deleteNode": "Delete node",
+    "rule": "Rule",
+    "ruleVersion": "Rule version",
+    "choose": "Choose",
+    "capability": "Capability",
+    "purpose": "Purpose",
+    "timeout": "Timeout (ms)",
+    "field": "Field",
+    "operator": "Operator",
+    "value": "Compare to",
+    "branchHelp": "Connect the upper handle to the matched path and the lower handle to the missed path. Only the listed fields and operators are available.",
+    "merge": "Merge mode",
+    "nodeTypes": {
+      "start": "Start",
+      "rule_execution": "Rule execution",
+      "model_invocation": "Model invocation",
+      "condition_branch": "Condition branch",
+      "result_merge": "Result merge",
+      "end": "End",
+      "llm": "Language model"
+    },
+    "samples": {
+      "clean": "Clean text",
+      "rule_hit": "Rule hit",
+      "model_risk": "Model risk",
+      "model_timeout": "Model timeout"
+    },
+    "purposes": {
+      "classify": "Classify",
+      "score": "Score",
+      "explain": "Explain"
+    },
+    "fields": {
+      "rule_hit": "Rule hit",
+      "risk_score": "Risk score",
+      "label_present": "Label present"
+    },
+    "mergeModes": {
+      "block_first": {
+        "label": "Block first",
+        "help": "If any input is block, the result is block. Otherwise review wins over allow."
+      },
+      "priority": {
+        "label": "First decision",
+        "help": "Keep the earliest decision in execution order. A rule hit is used before a later model result."
+      },
+      "conflict_review": {
+        "label": "Conflict to review",
+        "help": "If allow and block are both present, the result is review. Otherwise block wins, then review, then allow."
+      }
+    },
+    "issues": {
+      "missing_start": "Add a start node.",
+      "missing_end": "Add an end node.",
+      "multiple_start": "Use a single start node.",
+      "disconnected": "A node is not reachable from start.",
+      "dangling_edge": "An edge points at a missing node.",
+      "cycle": "Cycles are not allowed.",
+      "condition_incomplete": "The branch needs a field, operator, and value.",
+      "condition_outputs": "Connect both the matched and missed handles.",
+      "rule_missing": "Choose a rule for this node.",
+      "model_missing": "Choose a capability for this node.",
+      "timeout_invalid": "Use a timeout between 100 and 30000 ms.",
+      "merge_missing": "Choose a merge mode."
+    },
+    "reasons": {
+      "completed": "The simulation finished.",
+      "validation_failed": "Fix the validation issues before running.",
+      "model_timeout": "The model node timed out. This is an error, not a moderation decision.",
+      "dead_end": "A path does not reach the next node.",
+      "cycle": "The walk hit a cycle."
+    },
+    "apiMethod": "API method",
+    "apiPath": "API path",
+    "apiTimeout": "API timeout (ms)",
+    "apiNotice": "The path is stored on the node. This prototype does not call it.",
+    "llmModel": "Language model",
+    "llmPrompt": "Prompt",
+    "llmRag": "RAG snippet"
+  },
+  "Capabilities": {
+    "title": "Capabilities",
+    "description": "Register the models a workflow may call. Enabling a capability only updates this prototype catalog.",
+    "notConnected": "No credentials are stored. Timeout and status changes affect the prototype only.",
+    "search": "Search by name or ID",
+    "boundary": "The capability center stores registration data. The workflow decides when to call it. The merge policy interprets the result.",
+    "customName": "Custom name",
+    "customNameHint": "Leave blank to use the translated catalog name. A custom name is kept when you switch language.",
+    "timeout": "Timeout (ms)",
+    "statusLabel": "Status",
+    "timeoutError": "Use a timeout between 100 and 30000 ms.",
+    "saved": "Capability updated",
+    "columns": {
+      "id": "Capability ID",
+      "name": "Name",
+      "type": "Type",
+      "modalities": "Modalities",
+      "version": "Version",
+      "status": "Status",
+      "timeout": "Timeout",
+      "actions": "Actions"
+    }
+  },
+  "Lab": {
+    "title": "Evaluation lab",
+    "description": "Compare a candidate version with a fixed demo dataset. Passing an evaluation does not publish it.",
+    "mockNotice": "Every count on this page comes from bundled demo samples, not from production traffic.",
+    "candidate": "Candidate",
+    "dataset": "Dataset",
+    "rule": "Rule",
+    "workflow": "Workflow",
+    "start": "Run evaluation",
+    "running": "Evaluating…",
+    "finished": "Evaluation recorded",
+    "failed": "The evaluation could not start",
+    "invalidWorkflow": "Validate the workflow before evaluating it",
+    "baselineHelp": "The failing baseline dataset marks a historical block that the candidate would allow. That failure blocks publish.",
+    "total": "Samples",
+    "changed": "Changed",
+    "plan": "Execution plan {id}",
+    "planBody": "Rules: {rules}. Capabilities: {capabilities}. Merge policy: {policy}.",
+    "yes": "Yes",
+    "no": "No",
+    "emptyTitle": "No evaluation selected",
+    "emptyBody": "Run an evaluation to see the case table.",
+    "datasets": {
+      "ds_mirror": "Mirror sample set",
+      "ds_baseline_pass": "Baseline set, expected pass",
+      "ds_baseline_fail": "Baseline set, expected failure"
+    },
+    "policies": {
+      "block_first": "Block first",
+      "priority": "First decision",
+      "conflict_review": "Conflict to review"
+    },
+    "caseStatus": {
+      "unchanged": "Unchanged",
+      "changed": "Changed",
+      "regressed": "Regressed"
+    },
+    "columns": {
+      "sample": "Sample ID",
+      "summary": "Summary",
+      "baseline": "Baseline decision",
+      "candidate": "Candidate decision",
+      "changed": "Changed",
+      "status": "Evaluation status",
+      "review": "Human review"
+    },
+    "samples": {
+      "m1": "Short product update with no risk token.",
+      "m2": "Fixture that should stay blocked.",
+      "m3": "Fixture that should stay in review.",
+      "m4": "Clean note that the candidate sends to review.",
+      "m5": "Blocked fixture that the candidate would allow.",
+      "m6": "Review fixture that the candidate would block.",
+      "p1": "Known block case, still blocked.",
+      "p2": "Known review case, still in review.",
+      "p3": "Known allow case, still allowed.",
+      "p4": "Known block case, still blocked.",
+      "f1": "Known block case, still blocked.",
+      "f2": "Known review case, still in review.",
+      "f3": "Known allow case, still allowed.",
+      "f4": "Known block case that the candidate would allow."
+    }
+  },
+  "Releases": {
+    "title": "Releases",
+    "description": "Publish only after validation, a passing mirror evaluation, and a passing baseline regression. Rollback restores the previous version pointer.",
+    "mockNotice": "Publish and rollback change prototype state in this browser only.",
+    "target": "Target",
+    "gateTitle": "Release gate",
+    "checks": {
+      "validation": "Static validation",
+      "mirror": "Mirror evaluation",
+      "baseline": "Baseline regression"
+    },
+    "pass": "Passed",
+    "fail": "Not passed",
+    "alreadyLive": "This candidate is already the live version.",
+    "planNote": "The gate uses execution plans whose fingerprint matches the current candidate ({id}).",
+    "publish": "Publish",
+    "rollback": "Roll back",
+    "blocked": "Publishing stays disabled until every gate is green and a person confirms it.",
+    "confirmPublish": "Confirm publish. This does not contact a production environment.",
+    "confirmRollback": "Confirm rollback to the previous published version.",
+    "note": "Note",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "published": "Prototype publish recorded",
+    "rolledBack": "Prototype rollback recorded",
+    "rejected": "The action was rejected by the gate",
+    "noPrevious": "There is no previous published version to restore",
+    "version": "Version",
+    "status": "Status",
+    "summary": "Change summary",
+    "live": "Live",
+    "yes": "Yes",
+    "no": "No",
+    "history": "Release records",
+    "emptyTitle": "No release records",
+    "emptyBody": "Publish a candidate to create the first record.",
+    "actor": "Prototype operator, not authenticated",
+    "actions": {
+      "publish": "Publish",
+      "rollback": "Rollback"
+    }
+  },
+  "Audit": {
+    "title": "Audit log",
+    "description": "Sample moderation traces. They do not contain personal data or customer content.",
+    "mockNotice": "These rows are fixed demo records.",
+    "search": "Request ID",
+    "emptyTitle": "No records",
+    "emptyBody": "Adjust the filters.",
+    "rules": "Rule hits",
+    "models": "Model calls",
+    "trace": "Workflow trace",
+    "reason": "Reason",
+    "noRules": "No rule hit.",
+    "noModels": "No model call.",
+    "errorTitle": "Service error {code}",
+    "errorBody": "The request failed before a decision was produced.",
+    "columns": {
+      "request": "Request ID",
+      "application": "Application",
+      "scene": "Scene",
+      "input": "Input",
+      "decision": "Decision",
+      "labels": "Risk labels",
+      "status": "Status",
+      "latency": "Latency",
+      "created": "Created",
+      "actions": "Actions"
+    },
+    "summaries": {
+      "aud_1": "Demo community post about a product update.",
+      "aud_2": "Demo post containing the public block token.",
+      "aud_3": "Demo assistant reply held for review.",
+      "aud_4": "Demo comment image held as a block sample.",
+      "aud_5": "Demo assistant call that failed with a service error.",
+      "aud_6": "Demo post routed to review by keyword.",
+      "aud_7": "Demo comment image with no risk label."
+    },
+    "reasons": {
+      "aud_1": "No demo rule hit, and the model sample returned allow.",
+      "aud_2": "The keyword rule recommended block, so the merge stopped there.",
+      "aud_3": "The model sample returned review.",
+      "aud_4": "The image capability sample returned block.",
+      "aud_5": "The model call failed. No decision was stored.",
+      "aud_6": "The review keyword recommended human review.",
+      "aud_7": "The image capability sample returned allow."
+    }
+  },
+  "Tasks": {
+    "title": "Async tasks",
+    "description": "Bulk jobs are separate from the synchronous moderation check. This page does not use a real queue.",
+    "details": "Details",
+    "progress": "{processed} of {total} processed",
+    "failures": "Failed items",
+    "noFailures": "No failed items.",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "retried": "Retry simulated. The task will complete locally.",
+    "notRetryable": "Only failed or partially failed tasks can be retried.",
+    "cancelled": "Task cancelled in the prototype",
+    "notCancellable": "Only queued or running tasks can be cancelled.",
+    "columns": {
+      "id": "Task ID",
+      "type": "Type",
+      "status": "Status",
+      "total": "Total",
+      "processed": "Processed",
+      "failed": "Failed",
+      "created": "Created",
+      "actions": "Actions"
+    },
+    "failureReasons": {
+      "timeout": "The demo item timed out.",
+      "unsupported_type": "The demo file type was rejected.",
+      "too_large": "The demo file was over the size limit.",
+      "service_unavailable": "The demo dependency was unavailable."
+    }
+  },
+  "Settings": {
+    "title": "Settings",
+    "description": "Prototype preferences and the shared limits. Account security is not connected.",
+    "persistence": "Rules, workflows, and release actions are stored in localStorage on this browser. That storage is not a database and does not isolate tenants.",
+    "limitsTitle": "Shared limits",
+    "textLimit": "Text limit: {count} characters.",
+    "imageLimit": "Image limit: {size}.",
+    "rateLimit": "Playground demo quota: {count} runs per minute in this browser.",
+    "plannedTitle": "Not connected",
+    "plannedBadge": "Not connected",
+    "planned": [
+      "Server authentication and roles",
+      "Tenant isolation",
+      "API key issuance",
+      "Model endpoint credentials",
+      "Server-side rate limits",
+      "Audit export to a durable store"
+    ],
+    "reset": "Reset prototype data",
+    "resetConfirm": "Replace the local prototype data with the original demo records?",
+    "resetDone": "Demo data restored",
+    "cancel": "Cancel"
+  },
+  "Ops": {
+    "operatorOnly": "This page is available to the operator role in this prototype session.",
+    "operator": "Operator",
+    "customer": "Customer",
+    "unsigned": "Prototype session",
+    "signOut": "End session",
+    "role": "Role",
+    "tenant": "Tenant",
+    "tenantDemo": "Demo community",
+    "tenantRetail": "Demo retail",
+    "templatesTitle": "Rule templates",
+    "templatesBody": "Combine existing labels and rules into a set for one scene. Reference it onto an application channel so those rules take that scope.",
+    "templateNotice": "Referencing writes the scene, application, and label bindings onto the selected rules in this browser. Publishing still needs validation, a mirror run, and a passed baseline.",
+    "name": "Name",
+    "type": "Type",
+    "description": "Description",
+    "saveTemplate": "Save template",
+    "templateSaved": "Template saved in this browser",
+    "nameRequired": "Enter a name before saving",
+    "labelsTitle": "Labels",
+    "labelsBody": "Define a label, add positive and negative examples, and export the current rule list.",
+    "definition": "Definition",
+    "positive": "Positive examples",
+    "negative": "Negative examples",
+    "saveLabel": "Save label",
+    "labelSaved": "Label saved in this browser",
+    "exportRules": "Export rules",
+    "exported": "CSV downloaded",
+    "ruleId": "Rule ID",
+    "label": "Label",
+    "status": "Status",
+    "tuningTitle": "Large-model tuning",
+    "tuningBody": "Attach a prompt and retrieval notes, then debug a sample locally.",
+    "tuningNotice": "The endpoint is stored in this browser. Debug runs here and does not send the sample to that address.",
+    "endpoint": "Model endpoint",
+    "endpointHint": "Saved for later integration. This prototype does not call it.",
+    "prompt": "Built-in prompt",
+    "rag": "Retrieval notes",
+    "ragHint": "One note per line. Used only by the local debug.",
+    "saveTuning": "Save tuning",
+    "tuningSaved": "Tuning saved in this browser",
+    "debugInput": "Debug input",
+    "runDebug": "Run local debug",
+    "debugEmpty": "Run a sample to see the simulated JSON.",
+    "insightsTitle": "Tenant insights",
+    "insightsBody": "Review request history and simulated label-hit trends for the selected tenant.",
+    "insightsNotice": "Counts are simulated fixtures, not live customer volume. A customer session only shows that tenant.",
+    "tenantLocked": "This session shows only the signed-in tenant. It is a browser filter, not server isolation.",
+    "trendTitle": "Label hit trend",
+    "request": "Request",
+    "app": "Application",
+    "decision": "Decision",
+    "labels": "Labels",
+    "when": "Time",
+    "noDecision": "No decision",
+    "orgTitle": "Applications and channels",
+    "orgBody": "Add applications and channels under each tenant.",
+    "appName": "Application name",
+    "addApp": "Add application",
+    "appSaved": "Application saved in this browser",
+    "application": "Application",
+    "channel": "Channel",
+    "channelName": "Channel name",
+    "channelKind": "Channel type",
+    "addChannel": "Add channel",
+    "channelSaved": "Channel saved in this browser",
+    "kind": {
+      "text": "Text",
+      "image": "Image",
+      "mixed": "Text and image",
+      "video": "Video",
+      "audio": "Audio"
+    },
+    "rollbackTitle": "One-step rollback",
+    "rollbackBody": "Restore the previous model version, published strategy, or published keyword rule.",
+    "models": "Models",
+    "strategies": "Strategies",
+    "keywords": "Sensitive terms",
+    "rollback": "Roll back",
+    "rolledBack": "Rollback recorded",
+    "noPrevious": "No previous version is available",
+    "oneClickNote": "One-step prototype rollback.",
+    "compare": {
+      "gt": "Greater than",
+      "lt": "Less than",
+      "eq": "Equal to"
+    },
+    "score": "Score",
+    "riskLabel": "Risk label",
+    "riskType": "Risk type",
+    "dispose": "Apply the decision",
+    "conditions": "Extra conditions",
+    "addConstant": "Add constant",
+    "addVariable": "Add variable",
+    "constant": "Constant",
+    "remove": "Remove",
+    "template": "Template",
+    "noTemplate": "Start blank",
+    "storageTitle": "Store detection excerpts",
+    "storageBody": "When this is off, the playground does not keep text excerpts for the tenant.",
+    "playgroundPrompt": "Detection uses the built-in prompt in this browser. The sample is not sent to an external model address.",
+    "reviewPending": "Not reviewed",
+    "sample": "Sample",
+    "review": "Human review",
+    "exportReview": "Export review",
+    "ruleType": {
+      "keyword": "Keyword",
+      "ignore_term": "Ignore term",
+      "regex": "Regular expression",
+      "structured": "Structured",
+      "model_threshold": "Model score"
+    },
+    "compareLabel": "Comparison",
+    "pickVariable": "Choose a variable",
+    "batchEnable": "Enable",
+    "batchDisable": "Disable",
+    "batchClose": "Close",
+    "batchDelete": "Delete",
+    "selectedCount": "{count} selected",
+    "batchEmpty": "Select at least one rule.",
+    "batchDone": "Rules updated.",
+    "pickLabel": "Choose a label",
+    "sceneStrategy": "Scene strategy",
+    "strategyLabels": "Strategy labels",
+    "expected": "Expected",
+    "templateFilter": "Filter templates",
+    "templateSearch": "Search template name",
+    "allScenes": "All scenes",
+    "templateCompose": "Compose labels and rules",
+    "templateScene": "Scene",
+    "templateRules": "Rules",
+    "applyScope": "Apply to a scope",
+    "pickChannel": "Choose a channel",
+    "templateApply": "Reference and apply",
+    "templateApplyHint": "The chosen channel sets the application and scene. Each selected rule keeps its current status and gains the template labels.",
+    "templateApplied": "Applied to {count} rules",
+    "templatePick": "Choose a saved template and a channel."
+  },
+  "Catalog": {
+    "labelsBody": "Labels form a tree. Add children under a parent, and attach each label to one or more scenes.",
+    "labelSearch": "Search labels or scenes",
+    "noScene": "No scene",
+    "addChild": "Add child",
+    "parent": "Parent",
+    "root": "Top level",
+    "scenes": "Scenes",
+    "sceneCombo": "Combine by scene",
+    "sceneComboHint": "Choose a scene, then tick the labels that belong in that combination.",
+    "saved": "Saved",
+    "hasChildren": "Remove the child labels first.",
+    "deleted": "Removed",
+    "variablesTitle": "Variables",
+    "variablesBody": "Named values that model conditions and structured rules can reference.",
+    "varKey": "Key",
+    "varType": "Type",
+    "string": "Text",
+    "number": "Number",
+    "varValue": "Value",
+    "save": "Save",
+    "edit": "Edit",
+    "librariesTitle": "Rule libraries",
+    "librariesBody": "Each rule type has its own library. Add, edit, remove, export, or import rows for that type.",
+    "export": "Export CSV",
+    "import": "Import CSV",
+    "payload": "Body",
+    "payloadHint": "Terms, a pattern, or a short condition. One library stays inside its rule type.",
+    "imported": "Imported",
+    "knowledgeTitle": "Knowledge, prompts, and RAG",
+    "knowledgeBody": "Keep knowledge notes, prompts, and retrieval snippets in this browser. Detection still runs locally.",
+    "localNotice": "Nothing on this page is sent to an external address. Results stay simulated in this browser.",
+    "documents": "Knowledge",
+    "docTitle": "Title",
+    "docBody": "Body",
+    "prompts": "Prompts",
+    "promptBody": "Prompt",
+    "ragEntries": "RAG snippets",
+    "pickDoc": "Choose",
+    "llmLabTitle": "Model lab",
+    "llmLabBody": "Compare a prompt and RAG snippets across platform language models. Upload or download cases as CSV.",
+    "models": "Models",
+    "caseInput": "Case",
+    "expected": "Expected decision",
+    "addCase": "Add case",
+    "run": "Run",
+    "download": "Download cases",
+    "upload": "Upload cases",
+    "ran": "Comparison finished",
+    "delete": "Remove",
+    "downloadResults": "Download results",
+    "interceptTitle": "Customer case test",
+    "interceptBody": "Run one line or a batch against the current rules stored for a customer.",
+    "interceptNotice": "The result uses the rules saved in this browser. It is a simulated decision and is marked as a mock.",
+    "tenantLocked": "Tenant",
+    "tenant": "Customer",
+    "single": "Single case",
+    "runSingle": "Test one",
+    "batch": "Batch cases",
+    "batchHint": "One case per line, up to 50.",
+    "runBatch": "Test batch",
+    "status": "Status",
+    "decision": "Decision",
+    "hits": "Hit rules",
+    "queryTitle": "Log query",
+    "queryBody": "Write a SELECT against logs or history, then export the rows.",
+    "queryNotice": "Only SELECT from logs or history is accepted. Filters use = or LIKE, combined with AND.",
+    "sql": "SQL",
+    "runSql": "Run query",
+    "exported": "CSV downloaded",
+    "bindTitle": "Label and scene",
+    "bindHint": "Pick from the label-scene list. Search matches part of a label or scene name.",
+    "queryError": {
+      "syntax": "Use a single SELECT from logs or history.",
+      "table": "The table must be logs or history.",
+      "column": "That column is not on this table."
+    },
+    "annotation": "Annotation",
+    "importLabels": "Import labels",
+    "levelHint": "The tree shows level-1 labels until you expand a row. Import keeps up to four levels.",
+    "depthLimit": "Labels stop at four levels.",
+    "modality": "Media",
+    "sceneStrategy": "Scene strategy",
+    "uploadSheet": "Upload sheet",
+    "importOnline": "Import online records",
+    "savedQueries": "Saved queries",
+    "queryName": "Query name",
+    "saveQuery": "Save query",
+    "deleteQuery": "Delete query",
+    "effectTitle": "Effect test",
+    "effectBody": "Upload a sheet or import online audit records. This run stays in the browser and is simulated.",
+    "media": {
+      "text": "Text",
+      "image": "Image",
+      "video": "Video",
+      "audio": "Audio"
+    },
+    "rulesModule": "Rules",
+    "rulesModuleBody": "New rules and rule libraries are two parts of this module. Both stay in this browser.",
+    "rulesSection": "Rules",
+    "labelFilter": "Filter by label",
+    "varSearch": "Search by variable key or name",
+    "queryFields": "Query fields",
+    "fieldHint": "Every field on the stored history is available. Nothing is shown until you check it.",
+    "condition": "Value",
+    "contains": "Contains",
+    "equals": "Equals",
+    "pickFields": "Check the fields to use.",
+    "downloadTemplate": "Download template",
+    "downloadSelected": "Download selected fields",
+    "bindLabels": "Bind labels",
+    "referencedLabels": "Referenced label content",
+    "runExamples": "Run examples",
+    "resultFieldHint": "Every field on the run result is available. Nothing is shown or downloaded until you check it.",
+    "dataLimit": "Rows",
+    "importSamples": "Import from sample library",
+    "samplePolarity": "Black or white",
+    "blackLimit": "Black sample count",
+    "whiteLimit": "White sample count",
+    "samplesTitle": "Sample library",
+    "samplesBody": "Upload and download samples, and attach labels, resources, an application, and a channel. Imports stay in this browser.",
+    "sampleSearch": "Search sample text",
+    "sampleForm": "Sample",
+    "resource": "Resource",
+    "application": "Application",
+    "channel": "Channel",
+    "selectedFields": "{count} selected",
+    "auditFieldHint": "These fields are the ones stored on each audit record. Check the ones to show and filter.",
+    "polarity": {
+      "all": "All",
+      "black": "Black",
+      "white": "White"
+    },
+    "auditField": {
+      "serial": "Serial",
+      "createdAt": "Time",
+      "application": "Application",
+      "channel": "Channel",
+      "scene": "Scene",
+      "ruleIds": "Hit rule IDs",
+      "decision": "Decision",
+      "status": "Status",
+      "inputType": "Input type",
+      "riskLabels": "Risk labels",
+      "latencyMs": "Latency",
+      "id": "Record id"
+    },
+    "fieldGroup": {
+      "record": "Record",
+      "scope": "Scope",
+      "hit": "Hits",
+      "extra": "Other fields"
+    }
+  }
+}

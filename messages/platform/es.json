@@ -1,0 +1,1529 @@
+{
+  "Metadata": {
+    "title": "Aegis — Plataforma de seguridad de contenido",
+    "description": "Seguridad de contenido para texto e imagen, reglas, orquestación de flujos y gobierno de publicaciones. Este prototipo usa resultados simulados."
+  },
+  "Site": {
+    "brand": "Aegis",
+    "footerBlurb": "Plataforma prototipo de seguridad de contenido para reglas, flujos, capacidades y publicaciones.",
+    "rights": "Interfaz de prototipo. No es un servicio de producción.",
+    "pageStatus": "Página {page} de {pages} · {total} filas",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "close": "Cerrar",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "copyFailed": "No se pudo copiar",
+    "mockBadge": "Resultado de demostración",
+    "all": "Todos",
+    "view": "Ver",
+    "edit": "Editar",
+    "copyAction": "Copiar",
+    "save": "Guardar",
+    "cancel": "Cancelar"
+  },
+  "PublicNav": {
+    "products": "Capacidades",
+    "useCases": "Casos de uso",
+    "docs": "Documentación de API",
+    "playground": "Zona de pruebas",
+    "pricing": "Precios",
+    "login": "Iniciar sesión",
+    "startTesting": "Empezar a probar",
+    "tryPlayground": "Probar ahora",
+    "readDocs": "Leer la documentación",
+    "menu": "Abrir menú",
+    "product": "Producto",
+    "developers": "Desarrolladores",
+    "quickstart": "Inicio rápido",
+    "errors": "Códigos de error",
+    "language": "Idioma",
+    "privacy": "Política de privacidad",
+    "terms": "Términos del servicio",
+    "contact": "Contactar ventas",
+    "console": "Consola"
+  },
+  "Home": {
+    "eyebrow": "Plataforma de seguridad de contenido",
+    "title": "Modere contenido, gobierne la política y publique con una versión rastreable.",
+    "subtitle": "Aegis reúne la prueba de texto e imagen, las reglas, los flujos y las decisiones de publicación simuladas.",
+    "mockNotice": "Las pruebas públicas usan decisiones simuladas. El resultado se marca como demostración y no es un juicio del modelo.",
+    "capabilitiesTitle": "Capacidades del producto",
+    "capabilitiesIntro": "El prototipo separa detección, política, orquestación y publicación para que cada parte evolucione por separado.",
+    "capabilities": [
+      {
+        "title": "Moderación de texto",
+        "description": "Comprueba el texto en escenas de demostración y devuelve permitir, bloquear, revisar o un error de servicio."
+      },
+      {
+        "title": "Moderación de imagen",
+        "description": "Previsualice una imagen local, valide tipo y tamaño, y vea una decisión simulada."
+      },
+      {
+        "title": "Reglas y política",
+        "description": "Cree reglas con versión: palabra clave, término ignorado, regex, condición estructurada y umbral de modelo."
+      },
+      {
+        "title": "Flujos visuales",
+        "description": "Conecte inicio, reglas, ramas, llamadas al modelo, fusión y fin en el lienzo."
+      },
+      {
+        "title": "Capacidades de modelo",
+        "description": "Registre capacidades simuladas de la plataforma. El catálogo no llama a un modelo real."
+      },
+      {
+        "title": "Trazabilidad de la decisión",
+        "description": "Separe la decisión final de los tiempos de espera y los fallos del servicio."
+      },
+      {
+        "title": "Evaluación y publicación",
+        "description": "Ejecute una evaluación espejo y una regresión de línea base antes de publicar o revertir en el prototipo."
+      }
+    ],
+    "viewProducts": "Ver capacidades",
+    "scenesTitle": "Ejemplos de casos de uso",
+    "scenesIntro": "Son escenarios del producto, no casos de clientes ni certificaciones.",
+    "scenes": [
+      {
+        "title": "Contenido generado por usuarios",
+        "description": "Revise publicaciones y comentarios antes de que lleguen a la comunidad."
+      },
+      {
+        "title": "Gobierno de comunidades",
+        "description": "Combine reglas de palabras clave con revisión humana para los casos ambiguos."
+      },
+      {
+        "title": "Cumplimiento de contenido empresarial",
+        "description": "Conserve juntas las versiones, las notas de evaluación y los registros de publicación."
+      },
+      {
+        "title": "Entrada y salida de aplicaciones de IA",
+        "description": "Revise indicaciones y respuestas del modelo con un flujo aparte."
+      },
+      {
+        "title": "Detección con varios modelos",
+        "description": "Registre varias capacidades y decida en el flujo cuándo se invocan."
+      }
+    ],
+    "flowTitle": "Cómo lo adoptaría un equipo",
+    "stepLabel": "Paso {index}",
+    "steps": [
+      "Leer el contrato de la API",
+      "Ejecutar un ejemplo",
+      "Probar un texto o una imagen",
+      "Revisar la decisión y el JSON",
+      "Planear la integración",
+      "Configurar reglas y un flujo en la consola"
+    ],
+    "previewKicker": "Decisión de muestra",
+    "previewMock": "Simulado",
+    "previewSample": "Gracias por la actualización. La oficina cierra a las 6.",
+    "previewDecisionLabel": "Decisión",
+    "previewDecision": "Permitir",
+    "previewChips": [
+      {
+        "label": "Política",
+        "score": "0.04"
+      },
+      {
+        "label": "Adulto",
+        "score": "0.01"
+      },
+      {
+        "label": "Otro riesgo",
+        "score": "0.08"
+      }
+    ],
+    "stages": [
+      {
+        "kicker": "01",
+        "title": "Leer el intercambio",
+        "body": "Texto, imágenes y salida del modelo entran en una sola superficie, con la aplicación y el canal."
+      },
+      {
+        "kicker": "02",
+        "title": "Juzgarlo con la política",
+        "body": "Reglas, etiquetas y puntuaciones producen permitir, bloquear o revisión humana."
+      },
+      {
+        "kicker": "03",
+        "title": "Aplicar antes de publicar",
+        "body": "La decisión vuelve al producto. Un fallo sigue siendo un error y no se convierte en permiso."
+      }
+    ]
+  },
+  "Products": {
+    "eyebrow": "Capacidades",
+    "title": "De qué se encarga la plataforma",
+    "description": "Detección, política, orquestación y publicación viven en módulos distintos. Esta página describe el prototipo, no un despliegue de producción.",
+    "items": [
+      {
+        "title": "API de moderación",
+        "description": "Los contratos de texto e imagen comparten la misma respuesta.",
+        "points": [
+          "allow, block y review son decisiones",
+          "los fallos usan status error y decision nula",
+          "cada respuesta del prototipo marca is_mock como true"
+        ]
+      },
+      {
+        "title": "Reglas de política",
+        "description": "El equipo edita una versión candidata y no sobrescribe la regla publicada.",
+        "points": [
+          "palabra clave, término ignorado, regex, condición estructurada y umbral de modelo",
+          "estados desde borrador hasta publicado",
+          "el historial de versiones permanece en la regla"
+        ]
+      },
+      {
+        "title": "Flujos y decisiones",
+        "description": "Un flujo ordena reglas, llamadas al modelo, ramas y la política de fusión.",
+        "points": [
+          "sin scripts arbitrarios",
+          "validación antes de la ejecución simulada",
+          "la política de fusión es explícita"
+        ]
+      },
+      {
+        "title": "Gobierno de publicación",
+        "description": "Aprobar la evaluación no equivale a publicar.",
+        "points": [
+          "validación estática",
+          "evaluación espejo",
+          "si la regresión de línea base falla, se bloquea la publicación"
+        ]
+      }
+    ],
+    "exampleTitle": "Respuesta de ejemplo",
+    "exampleBody": "El mismo objeto se usa en la documentación y en la zona de pruebas."
+  },
+  "UseCases": {
+    "eyebrow": "Casos de uso",
+    "title": "Combinaciones de capacidad por escenario",
+    "description": "Cada escenario muestra qué módulos trabajan juntos. No hay certificaciones ni promesas sobre un cliente concreto.",
+    "items": [
+      {
+        "title": "Contenido generado por usuarios",
+        "description": "Revise las publicaciones antes de almacenarlas.",
+        "stack": "Moderación de texto, reglas de palabras clave y una cola de revisión."
+      },
+      {
+        "title": "Comunidades y redes sociales",
+        "description": "Separe comentarios y publicaciones largas con escenas distintas.",
+        "stack": "Alcance por escena, versiones de reglas y trazas de auditoría."
+      },
+      {
+        "title": "Cumplimiento de contenido empresarial",
+        "description": "Registre qué versión de la política produjo la decisión.",
+        "stack": "Planes de ejecución, evaluaciones y registros de publicación."
+      },
+      {
+        "title": "Entrada y salida de aplicaciones de IA",
+        "description": "Compruebe indicaciones y respuestas con una capacidad de modelo dentro del flujo.",
+        "stack": "Invocación del modelo, control de tiempo de espera y revisión."
+      },
+      {
+        "title": "Controles con varios modelos",
+        "description": "Registre varias capacidades y deje que el flujo decida cuándo llamarlas.",
+        "stack": "Centro de capacidades más fusión de resultados."
+      }
+    ]
+  },
+  "PricingPage": {
+    "eyebrow": "Precios",
+    "title": "Estructura de planes de ejemplo",
+    "description": "Los nombres muestran cómo podría estructurarse una oferta. No son una cotización.",
+    "demoNotice": "Los precios, las cuotas y las condiciones no están publicados. Contacte a ventas para una propuesta real. Esta página es una demostración.",
+    "contactSales": "Contactar ventas",
+    "plans": [
+      {
+        "name": "Prueba",
+        "audience": "Para equipos de evaluación",
+        "points": [
+          "Acceso a la zona de pruebas",
+          "Contrato de API de ejemplo",
+          "No incluye cuota de producción"
+        ]
+      },
+      {
+        "name": "Profesional",
+        "audience": "Para un equipo de producto",
+        "points": [
+          "Configuración de reglas y flujos",
+          "Espacio de evaluación",
+          "Los límites comerciales se confirman con ventas"
+        ]
+      },
+      {
+        "name": "Empresa",
+        "audience": "Para varias aplicaciones",
+        "points": [
+          "Alcance por inquilino y escena",
+          "Registros de publicación",
+          "Revisión de seguridad antes de cualquier conexión de producción"
+        ]
+      }
+    ]
+  },
+  "Contact": {
+    "eyebrow": "Contacto",
+    "title": "Hablar con ventas",
+    "description": "Cuéntenos sobre el equipo y el flujo que desea moderar. El formulario permanece en el navegador.",
+    "demoNotice": "Enviar este formulario no escribe a ventas. Solo valida los campos y muestra una confirmación de demostración.",
+    "company": "Empresa",
+    "name": "Nombre de contacto",
+    "email": "Correo de trabajo",
+    "need": "¿Qué necesita?",
+    "companyError": "Introduzca el nombre de la empresa.",
+    "nameError": "Introduzca el nombre de contacto.",
+    "emailError": "Introduzca un correo válido.",
+    "needError": "Describa la necesidad en al menos una frase breve.",
+    "submit": "Enviar solicitud de demostración",
+    "successTitle": "La solicitud de demostración solo se guardó en este navegador",
+    "successBody": "No se envió a ventas ni se almacenó en un servidor."
+  },
+  "Legal": {
+    "eyebrow": "Texto legal provisional",
+    "placeholder": "Este texto legal es un marcador del prototipo. No es una política de privacidad ni un contrato.",
+    "privacy": {
+      "title": "Política de privacidad",
+      "description": "Un sitio de producción necesita una política de privacidad real antes de recoger datos de clientes.",
+      "paragraphs": [
+        "La zona de pruebas mantiene la vista previa en memoria y no sube la imagen.",
+        "Los datos de la consola se guardan en este navegador y no son una base de clientes.",
+        "No envíe datos personales, secretos ni contenido de clientes."
+      ]
+    },
+    "terms": {
+      "title": "Términos del servicio",
+      "description": "Un sitio de producción necesita términos revisados antes de ofrecer un servicio de pago.",
+      "paragraphs": [
+        "Las decisiones simuladas no deben usarse como resultado de moderación en producción.",
+        "La consola es un prototipo interno y no tiene control de acceso.",
+        "Los ejemplos usan el marcador YOUR_API_KEY y no conceden acceso."
+      ]
+    }
+  },
+  "Docs": {
+    "title": "Documentación",
+    "contents": "Contenido",
+    "onThisPage": "En esta página",
+    "openPlayground": "Abrir zona de pruebas",
+    "contractNotice": "Este contrato es un ejemplo de prototipo. Una API de producción debe servirla un backend y los campos pueden cambiar antes del lanzamiento.",
+    "missing": "No se encontró este documento.",
+    "request": "Solicitud",
+    "response": "Respuesta",
+    "code": "Código",
+    "meaning": "Significado",
+    "nav": {
+      "overview": "Descripción general",
+      "quickstart": "Inicio rápido",
+      "authentication": "Autenticación",
+      "text-moderation": "Moderación de texto",
+      "image-moderation": "Moderación de imagen",
+      "errors": "Códigos de error"
+    },
+    "limits": {
+      "types": "Tipos de imagen aceptados: {types}.",
+      "size": "Tamaño máximo de imagen: {size}.",
+      "timeout": "Tiempo de espera documentado: {timeout} ms.",
+      "rate": "Cuota de demostración: {count} ejecuciones por minuto en este navegador.",
+      "text": "Longitud máxima del texto: {count} caracteres."
+    },
+    "errors": {
+      "400": "El cuerpo o el archivo de la solicitud no es válido.",
+      "401": "Falta la credencial o fue rechazada.",
+      "403": "La credencial no tiene acceso a este recurso.",
+      "413": "La solicitud o el archivo supera el límite.",
+      "429": "El cliente envió demasiadas solicitudes.",
+      "500": "Error interno del servicio.",
+      "503": "La dependencia de moderación no está disponible."
+    },
+    "pages": {
+      "overview": {
+        "title": "Descripción general",
+        "description": "La documentación pública describe el contrato de ejemplo y no exige inicio de sesión.",
+        "sections": [
+          {
+            "id": "what",
+            "title": "Qué se puede llamar",
+            "paragraphs": [
+              "El prototipo documenta POST /v1/moderation/text y POST /v1/moderation/image.",
+              "Ambos devuelven el mismo sobre de decisión."
+            ]
+          },
+          {
+            "id": "areas",
+            "title": "Cómo se divide el producto",
+            "paragraphs": [
+              "Las reglas gestionan la política. Los flujos ordenan las comprobaciones. El centro de capacidades registra modelos. La fusión produce permitir, bloquear o revisar.",
+              "Un error de servicio no se convierte en una decisión."
+            ]
+          },
+          {
+            "id": "mock",
+            "title": "Límite de la demostración",
+            "paragraphs": [
+              "Las respuestas de este sitio marcan is_mock como true. La zona de pruebas no llama a un modelo alojado."
+            ]
+          }
+        ]
+      },
+      "quickstart": {
+        "title": "Inicio rápido",
+        "description": "Use estos pasos para leer el contrato. El host api.example.com es ilustrativo.",
+        "sections": [
+          {
+            "id": "choose",
+            "title": "1. Elija un endpoint",
+            "paragraphs": [
+              "Use el endpoint de texto para una cadena y el de imagen para una referencia de imagen."
+            ]
+          },
+          {
+            "id": "auth",
+            "title": "2. Entienda la autenticación",
+            "paragraphs": [
+              "Un servidor futuro exigirá un token bearer. El valor de ejemplo es YOUR_API_KEY."
+            ]
+          },
+          {
+            "id": "request",
+            "title": "3. Construya y envíe la solicitud",
+            "paragraphs": [
+              "Envíe JSON con un identificador de escena. La zona de pruebas usa los mismos campos de texto."
+            ]
+          },
+          {
+            "id": "response",
+            "title": "4. Lea la respuesta",
+            "paragraphs": [
+              "Si status es success, decision es allow, block o review. Si status es error, decision es null."
+            ]
+          },
+          {
+            "id": "errors",
+            "title": "5. Gestione los errores",
+            "paragraphs": [
+              "Ramifique por status antes de leer decision. No trate un error como allow."
+            ]
+          }
+        ]
+      },
+      "authentication": {
+        "title": "Autenticación",
+        "description": "Las llamadas de producción deben usar una credencial de servidor. Este sitio no contiene una clave real.",
+        "sections": [
+          {
+            "id": "model",
+            "title": "Modelo de credencial",
+            "paragraphs": [
+              "La API prevista se autentica con un token bearer emitido en el servidor. Las aplicaciones de navegador deben llamar a su propio backend y no guardar un secreto."
+            ]
+          },
+          {
+            "id": "header",
+            "title": "Encabezado de ejemplo",
+            "paragraphs": [
+              "Sustituya el marcador solo en un servidor que controle."
+            ]
+          },
+          {
+            "id": "placeholder",
+            "title": "Solo un marcador",
+            "paragraphs": [
+              "YOUR_API_KEY no es una credencial. La consola de este prototipo no emite claves."
+            ]
+          }
+        ]
+      },
+      "text-moderation": {
+        "title": "Moderación de texto",
+        "description": "POST /v1/moderation/text comprueba una cadena y devuelve el sobre compartido.",
+        "sections": [
+          {
+            "id": "endpoint",
+            "title": "Endpoint",
+            "paragraphs": [
+              "Método: POST. Ruta: /v1/moderation/text. Cuerpo: JSON."
+            ]
+          },
+          {
+            "id": "fields",
+            "title": "Campos",
+            "paragraphs": [
+              "text es el contenido. scene_id elige una escena configurada. metadata.source identifica al llamador, por ejemplo playground."
+            ]
+          },
+          {
+            "id": "example",
+            "title": "Ejemplo",
+            "paragraphs": [
+              "El ejemplo de revisión siguiente es el ejemplo canónico de todo el sitio."
+            ]
+          },
+          {
+            "id": "errors",
+            "title": "Errores",
+            "paragraphs": [
+              "Un cuerpo vacío o un texto por encima del límite devuelve 400. El límite de frecuencia devuelve 429. Una caída de la dependencia devuelve 503 y ninguna decisión."
+            ]
+          }
+        ]
+      },
+      "image-moderation": {
+        "title": "Moderación de imagen",
+        "description": "POST /v1/moderation/image describe el futuro contrato de imagen. La zona de pruebas nunca sube el archivo.",
+        "sections": [
+          {
+            "id": "endpoint",
+            "title": "Endpoint",
+            "paragraphs": [
+              "Método: POST. Ruta: /v1/moderation/image."
+            ]
+          },
+          {
+            "id": "inputs",
+            "title": "Formas de entrada",
+            "paragraphs": [
+              "La entrada JSON documentada es image_url. Una carga multipart futura puede enviar los bytes a su servidor.",
+              "La zona de pruebas lee el archivo en local, comprueba tipo y tamaño, y lo descarta al salir de la página."
+            ]
+          },
+          {
+            "id": "example",
+            "title": "Ejemplo",
+            "paragraphs": [
+              "Los límites siguientes salen de la misma configuración que la zona de pruebas."
+            ]
+          },
+          {
+            "id": "safety",
+            "title": "Tratamiento de datos",
+            "paragraphs": [
+              "No envíe secretos en los metadatos de la imagen. Un proxy de producción debe limitar tamaño, tipo, frecuencia y retención antes de que un modelo vea el archivo."
+            ]
+          }
+        ]
+      },
+      "errors": {
+        "title": "Códigos de error",
+        "description": "Estos códigos son el contrato del prototipo. Confírmelos con el backend antes de un lanzamiento de producción.",
+        "sections": [
+          {
+            "id": "catalog",
+            "title": "Catálogo",
+            "paragraphs": [
+              "Una respuesta de error usa status error y no incluye una decisión de moderación."
+            ]
+          },
+          {
+            "id": "separation",
+            "title": "No convierta los errores",
+            "paragraphs": [
+              "Un tiempo de espera o un 503 debe seguir siendo un error. No debe guardarse como allow, block o review."
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "Play": {
+    "title": "Zona de pruebas",
+    "description": "Ejecute una comprobación simulada de texto o imagen. No hace falta una cuenta, y la muestra permanece en este navegador.",
+    "dataNotice": "El texto permanece en esta página hasta que la actualice. Las imágenes se previsualizan en local y no se suben. La cuota de demostración solo aplica en este navegador.",
+    "textMode": "Moderación de texto",
+    "imageMode": "Moderación de imagen",
+    "scene": "Escena",
+    "scenes": {
+      "default": "Escena predeterminada",
+      "ugc": "Publicaciones de usuarios",
+      "ai": "Entrada y salida del modelo"
+    },
+    "sampleNames": {
+      "safe": "Ejemplo de permiso",
+      "risk": "Ejemplo de bloqueo",
+      "review": "Ejemplo de revisión",
+      "outage": "Error de servicio",
+      "custom": "Texto personalizado"
+    },
+    "samples": {
+      "safe": "Gracias por la actualización. Las normas de la comunidad se entienden bien.",
+      "risk": "Este ejemplo incluye DEMO_BLOCK_TOKEN para una prueba de política.",
+      "review": "Este ejemplo incluye DEMO_REVIEW_TOKEN y debe revisarlo una persona.",
+      "outage": "Este ejemplo incluye DEMO_OUTAGE para simular un fallo de dependencia."
+    },
+    "imageSampleNames": {
+      "safe": "Ejemplo de permiso",
+      "risk": "Ejemplo de bloqueo",
+      "review": "Ejemplo de revisión",
+      "outage": "Error de servicio"
+    },
+    "textInput": "Texto",
+    "textHint": "Hasta {max} caracteres. Las marcas de ejemplo son ficticias.",
+    "textRequired": "Escriba un texto antes de ejecutar la prueba.",
+    "inputError": "Revise la entrada",
+    "clear": "Vaciar",
+    "reset": "Restablecer",
+    "run": "Ejecutar prueba",
+    "running": "Ejecutando la comprobación de demostración…",
+    "emptyResult": "Ejecute una prueba para ver la decisión de demostración y el JSON.",
+    "requestJson": "Solicitud",
+    "responseJson": "Respuesta",
+    "chooseImage": "Elegir imagen",
+    "replaceImage": "Reemplazar imagen",
+    "removeImage": "Quitar imagen",
+    "dropHint": "Elija una imagen JPEG, PNG o WebP. El archivo permanece en el navegador.",
+    "previewAlt": "Vista previa de la imagen seleccionada",
+    "unknownType": "Tipo desconocido",
+    "unsupportedType": "Este tipo de archivo no es compatible.",
+    "fileTooLarge": "El archivo supera {size}.",
+    "fileRequired": "Elija una imagen antes de ejecutar la prueba.",
+    "imageLimits": "Tipos: {types}. Tamaño máximo: {size}. Tiempo de espera documentado: {timeout} ms.",
+    "serviceError": "Error de servicio {code}",
+    "serviceErrorBody": "Esto no es una decisión de permitir, bloquear o revisar.",
+    "reasons": {
+      "safe": "El ejemplo no coincidió con una regla de riesgo.",
+      "risk": "El ejemplo coincidió con una regla de bloqueo.",
+      "review": "El ejemplo se envió a revisión humana.",
+      "outage": "La dependencia de moderación de demostración no está disponible.",
+      "tooLong": "El texto supera el límite configurado.",
+      "rateLimit": "Se alcanzó la cuota de demostración del navegador. Reintente en {seconds} segundos."
+    },
+    "imageReasons": {
+      "safe": "El ejemplo de imagen devolvió permitir.",
+      "risk": "El ejemplo de imagen devolvió bloquear.",
+      "review": "El ejemplo de imagen devolvió revisión.",
+      "outage": "La dependencia de imagen de demostración no está disponible."
+    },
+    "fields": {
+      "requestId": "request_id",
+      "status": "status",
+      "decision": "decision",
+      "reason": "reason",
+      "latency": "latency_ms",
+      "latencyValue": "{value} ms, simulado",
+      "mock": "is_mock",
+      "labels": "risk_labels",
+      "noLabels": "Sin etiquetas de riesgo",
+      "notADecision": "No hay decisión porque la llamada falló"
+    }
+  },
+  "Auth": {
+    "notConnected": "Este formulario no llama a un servicio de autenticación ni comprueba la contraseña. Al enviarlo, este navegador guarda el rol y el inquilino para que la consola filtre los registros.",
+    "name": "Nombre",
+    "email": "Correo de trabajo",
+    "password": "Contraseña",
+    "confirm": "Confirmar contraseña",
+    "nameError": "Introduzca su nombre.",
+    "emailError": "Introduzca un correo válido.",
+    "passwordError": "Use al menos 8 caracteres. El valor no se almacena.",
+    "confirmError": "Las contraseñas no coinciden.",
+    "openConsole": "Abrir la consola del prototipo",
+    "toLogin": "Iniciar sesión",
+    "toRegister": "Crear una cuenta",
+    "toForgot": "Olvidé la contraseña",
+    "login": {
+      "title": "Iniciar sesión",
+      "description": "Esta es una vista previa del inicio de sesión. No le autentica.",
+      "submit": "Continuar",
+      "successTitle": "Sesión de prototipo guardada",
+      "successBody": "Este navegador filtrará la consola al inquilino elegido. No es autenticación de servidor, y la consola sigue sin protección."
+    },
+    "register": {
+      "title": "Crear una cuenta",
+      "description": "Vista previa del registro. La contraseña se comprueba en local y luego se descarta.",
+      "submit": "Crear cuenta de demostración",
+      "successTitle": "El registro no se envió",
+      "successBody": "No se creó una cuenta. Aun así puede abrir la consola del prototipo."
+    },
+    "forgot": {
+      "title": "Restablecer contraseña",
+      "description": "Vista previa del formulario de restablecimiento. No se enviará ningún correo.",
+      "submit": "Enviar enlace de restablecimiento",
+      "successTitle": "No se envió un correo de restablecimiento",
+      "successBody": "Un sistema de producción enviaría un enlace tras verificar la cuenta. Este prototipo no lo hizo."
+    }
+  },
+  "Console": {
+    "title": "Consola de operaciones",
+    "subtitle": "Prototipo interno",
+    "internal": "Interno",
+    "accessNotice": "Esta consola es un prototipo. El filtro del inquilino se ejecuta en el navegador y no es aislamiento ni autorización de servidor.",
+    "overviewTitle": "Descripción general",
+    "overviewBody": "Reglas, flujos, capacidades, evaluaciones y publicaciones son registros separados. Los recuentos salen del almacén local del prototipo.",
+    "rulesBoundaryTitle": "Reglas",
+    "rulesBoundaryBody": "Las reglas definen una coincidencia y una acción recomendada. Editar una regla publicada crea una versión candidata.",
+    "workflowBoundaryTitle": "Flujos",
+    "workflowBoundaryBody": "Un flujo ordena reglas, llamadas, ramas y la fusión. Un grafo válido no es una aprobación para publicar.",
+    "decisionBoundaryTitle": "Decisiones",
+    "decisionBoundaryBody": "La política de fusión devuelve permitir, bloquear o revisar. Los tiempos de espera siguen siendo errores y no se convierten en decisiones.",
+    "nav": {
+      "overview": "Descripción general",
+      "rules": "Reglas",
+      "workflows": "Flujos",
+      "capabilities": "Capacidades",
+      "lab": "Laboratorio de evaluación",
+      "releases": "Publicaciones",
+      "audit": "Registro de auditoría",
+      "tasks": "Tareas asíncronas",
+      "settings": "Ajustes",
+      "templates": "Plantillas",
+      "labels": "Etiquetas",
+      "tuning": "Ajuste del modelo",
+      "insights": "Información",
+      "org": "Aplicaciones",
+      "variables": "Variables",
+      "libraries": "Bibliotecas",
+      "knowledge": "Conocimiento",
+      "llmLab": "Laboratorio",
+      "intercept": "Prueba de casos",
+      "query": "Consulta",
+      "samples": "Biblioteca de muestras"
+    },
+    "groups": {
+      "desk": "Mesa",
+      "policy": "Política",
+      "detect": "Detección",
+      "org": "Organización"
+    },
+    "queueTitle": "Cola de revisión",
+    "queueSample": "Una publicación de la comunidad pide una comprobación de política antes de mostrarse.",
+    "queueDecision": "Acción recomendada",
+    "queueAction": "Enviar a revisión humana",
+    "openQueue": "Abrir el registro",
+    "signalTitle": "Volumen simulado de etiquetas este mes",
+    "simulated": "Simulado"
+  },
+  "Enums": {
+    "decision": {
+      "allow": "Permitir",
+      "block": "Bloquear",
+      "review": "Revisar",
+      "none": "Sin decisión"
+    },
+    "status": {
+      "draft": "Borrador",
+      "evaluating": "Evaluando",
+      "pending_evaluation": "Pendiente de evaluación",
+      "evaluation_passed": "Evaluación aprobada",
+      "pending_release": "Pendiente de publicación",
+      "published": "Publicado",
+      "rolled_back": "Revertido",
+      "disabled": "Desactivado",
+      "archived": "Archivado",
+      "enabled": "Activado",
+      "queued": "En cola",
+      "running": "En ejecución",
+      "completed": "Completado",
+      "partially_failed": "Fallo parcial",
+      "failed": "Fallido",
+      "cancelled": "Cancelado"
+    },
+    "ruleType": {
+      "keyword": "Palabra clave",
+      "ignore_term": "Término ignorado",
+      "regex": "Expresión regular",
+      "structured": "Condición estructurada",
+      "model_threshold": "Umbral de modelo"
+    },
+    "scopes": {
+      "ten_demo": "Inquilino de demostración",
+      "app_community": "Aplicación de comunidad",
+      "app_assistant": "Aplicación de asistente",
+      "scene_ugc": "Publicaciones de usuarios",
+      "scene_comments": "Comentarios",
+      "scene_ai_io": "Entrada y salida del modelo",
+      "default": "Escena predeterminada",
+      "ten_retail": "Comercio de demostración",
+      "app_shop": "Tienda"
+    },
+    "matchMode": {
+      "contains": "Contiene",
+      "exact": "Exacto",
+      "word": "Palabra completa"
+    },
+    "textScope": {
+      "all": "Todo el texto",
+      "user_text": "Texto del usuario",
+      "model_output": "Salida del modelo"
+    },
+    "operator": {
+      "eq": "Igual a",
+      "neq": "Distinto de",
+      "contains": "Contiene",
+      "gt": "Mayor que",
+      "lt": "Menor que"
+    },
+    "capabilities": {
+      "cap_text_small": "Modelo pequeño de texto",
+      "cap_text_llm": "Modelo grande de la plataforma",
+      "cap_image_small": "Modelo de contenido de imagen",
+      "cap_ocr_helper": "Reconocimiento de texto",
+      "cap_politics_model": "Modelo de contenido político",
+      "cap_adult_model": "Modelo de contenido adulto",
+      "cap_politics_keywords": "Términos sensibles políticos",
+      "cap_adult_small": "Modelo pequeño de contenido adulto",
+      "cap_platform_llm_plus": "Modelo grande ampliado de la plataforma"
+    },
+    "capabilityType": {
+      "inhouse_small": "Modelo pequeño",
+      "inhouse_llm": "Modelo grande",
+      "keyword_list": "Lista de términos sensibles",
+      "other": "Otro servicio"
+    },
+    "provider": {
+      "aegis": "Demostración de Aegis"
+    },
+    "modality": {
+      "text": "Texto",
+      "image": "Imagen"
+    },
+    "versionState": {
+      "active": "Activa",
+      "retired": "Retirada"
+    },
+    "trace": {
+      "start": "Inicio",
+      "rule_hit": "Coincidencia de regla",
+      "rule_miss": "Sin coincidencia de regla",
+      "branch_true": "Rama coincidente",
+      "branch_false": "Rama no coincidente",
+      "model_ok": "El modelo respondió",
+      "model_error": "El modelo falló",
+      "merge": "Fusión",
+      "end": "Fin"
+    },
+    "taskType": {
+      "bulk_text_review": "Revisión masiva de texto",
+      "baseline_regression": "Regresión de línea base",
+      "image_backfill": "Reprocesado de imágenes",
+      "export_audit": "Exportación de auditoría"
+    }
+  },
+  "Rules": {
+    "title": "Reglas",
+    "description": "Las versiones de la regla se gestionan aparte del puntero publicado. Los nombres que escriba son datos de negocio y no cambian al cambiar el idioma.",
+    "businessData": "Los nombres, las descripciones y las notas de las reglas son datos de negocio. Cambiar el idioma no los traduce.",
+    "create": "Nueva regla",
+    "search": "Buscar",
+    "searchPlaceholder": "Nombre o ID de regla",
+    "type": "Tipo",
+    "status": "Estado",
+    "scope": "Alcance",
+    "resetFilters": "Restablecer filtros",
+    "emptyTitle": "Ninguna regla coincide",
+    "emptyBody": "Cambie los filtros o cree una regla.",
+    "columns": {
+      "id": "ID de regla",
+      "name": "Nombre",
+      "type": "Tipo",
+      "scope": "Alcance",
+      "action": "Acción",
+      "version": "Versión",
+      "status": "Estado",
+      "updated": "Actualizado",
+      "actions": "Acciones"
+    },
+    "liveCandidate": "Hay una versión publicada en vigor. Esta fila es la candidata.",
+    "copySuffix": "copia",
+    "copied": "Regla copiada como borrador",
+    "editTitle": "Editar candidata",
+    "detailTitle": "Detalle de la regla",
+    "formHelp": "Los campos obligatorios dependen del tipo de regla.",
+    "forkNotice": "Esta versión está en vigor. Guardar crea un borrador candidato y no modifica la versión en vigor.",
+    "name": "Nombre de la regla",
+    "descriptionLabel": "Descripción",
+    "tenant": "Inquilino",
+    "application": "Aplicación",
+    "scene": "Escena",
+    "action": "Acción recomendada",
+    "priority": "Prioridad",
+    "terms": "Términos, uno por línea",
+    "matchMode": "Modo de coincidencia",
+    "exclusions": "Exclusiones, una por línea",
+    "textScope": "Alcance del texto",
+    "pattern": "Expresión regular",
+    "flags": "Indicadores",
+    "sampleText": "Texto de ejemplo",
+    "testRegex": "Probar la expresión en local",
+    "regexMatched": "Coincidencias: {values}",
+    "regexNone": "La expresión es válida y no coincidió con el ejemplo.",
+    "regexErrors": {
+      "empty": "Introduzca una expresión.",
+      "too_long": "La expresión es demasiado larga para la prueba local.",
+      "invalid": "La expresión no es válida."
+    },
+    "field": "Campo",
+    "operator": "Operador",
+    "value": "Valor",
+    "capability": "Capacidad",
+    "feature": "Característica",
+    "threshold": "Umbral de 0 a 1",
+    "notes": "Notas",
+    "summary": "Resumen del cambio",
+    "history": "Historial de versiones",
+    "disable": "Desactivar",
+    "disabled": "Regla desactivada",
+    "restore": "Restaurar",
+    "restored": "Regla restaurada",
+    "archive": "Archivar",
+    "archived": "Regla archivada",
+    "submitEval": "Marcar pendiente de evaluación",
+    "submitted": "El estado pasó a pendiente de evaluación",
+    "created": "Borrador de regla creado",
+    "updated": "Candidata guardada",
+    "forked": "Nueva versión candidata creada",
+    "statusDraft": "La candidata queda en borrador hasta que se evalúe de nuevo.",
+    "saveFailed": "No se pudo guardar la regla",
+    "validationTitle": "Complete los campos indicados",
+    "archivedError": "Las reglas archivadas no se pueden editar",
+    "errors": {
+      "name": "Introduzca un nombre.",
+      "description": "Introduzca una descripción.",
+      "priority": "Use una prioridad de 1 a 100.",
+      "terms": "Añada al menos un término.",
+      "regex": "La expresión regular no es válida.",
+      "structured": "Introduzca un campo y un valor.",
+      "model": "Elija una capacidad y una característica.",
+      "threshold": "Use un umbral de 0 a 1."
+    }
+  },
+  "Workflows": {
+    "title": "Flujos",
+    "description": "El grafo de ejemplo ejecuta una regla, una rama, una llamada simulada al modelo, la fusión y el fin. No llama a un modelo de producción.",
+    "loading": "Cargando el lienzo…",
+    "create": "Nuevo flujo",
+    "newName": "Flujo sin título",
+    "newDescription": "Inicio está conectado con fin. Añada el resto de nodos antes de publicar.",
+    "created": "Flujo creado",
+    "copied": "Flujo copiado",
+    "copySuffix": "copia",
+    "workflow": "Flujo",
+    "name": "Nombre",
+    "discard": "¿Descartar los cambios no guardados del lienzo?",
+    "unsaved": "Cambios sin guardar",
+    "savedState": "Guardado",
+    "saved": "Flujo guardado",
+    "forked": "Versión candidata creada",
+    "forkedHelp": "El grafo publicado no se sobrescribió.",
+    "saveFailed": "No se pudo guardar el flujo",
+    "palette": "Nodos",
+    "inspector": "Configuración",
+    "selectNode": "Seleccione un nodo para editarlo. Arrastre entre los puntos para conectar. Pulse Suprimir para borrar un nodo o una conexión.",
+    "descriptionLabel": "Descripción",
+    "summary": "Resumen del cambio",
+    "validate": "Validar",
+    "valid": "El grafo superó la validación",
+    "invalid": "La validación encontró problemas",
+    "sample": "Entrada de demostración",
+    "run": "Ejecutar prueba",
+    "running": "Ejecutando…",
+    "simNotice": "La ejecución es una simulación local. Un tiempo de espera sigue siendo un error y no se convierte en permitir, bloquear o revisar.",
+    "issueTitle": "Problemas de validación",
+    "resultTitle": "Simulación",
+    "resultError": "La ejecución no produjo una decisión",
+    "finalDecision": "Decisión final",
+    "missingTitle": "No se encuentra el flujo",
+    "missingBody": "Elija otro flujo.",
+    "nodeName": "Nombre del nodo",
+    "deleteNode": "Eliminar nodo",
+    "rule": "Regla",
+    "ruleVersion": "Versión de la regla",
+    "choose": "Elegir",
+    "capability": "Capacidad",
+    "purpose": "Uso",
+    "timeout": "Tiempo de espera (ms)",
+    "field": "Campo",
+    "operator": "Operador",
+    "value": "Comparar con",
+    "branchHelp": "Conecte el punto superior a la ruta coincidente y el inferior a la ruta no coincidente. Solo están disponibles los campos y operadores de la lista.",
+    "merge": "Modo de fusión",
+    "nodeTypes": {
+      "start": "Inicio",
+      "rule_execution": "Ejecución de regla",
+      "model_invocation": "Invocación del modelo",
+      "condition_branch": "Rama condicional",
+      "result_merge": "Fusión de resultados",
+      "end": "Fin",
+      "llm": "Modelo de lenguaje"
+    },
+    "samples": {
+      "clean": "Texto limpio",
+      "rule_hit": "Coincidencia de regla",
+      "model_risk": "Riesgo del modelo",
+      "model_timeout": "Tiempo de espera del modelo"
+    },
+    "purposes": {
+      "classify": "Clasificar",
+      "score": "Puntuar",
+      "explain": "Explicar"
+    },
+    "fields": {
+      "rule_hit": "Coincidencia de regla",
+      "risk_score": "Puntuación de riesgo",
+      "label_present": "Etiqueta presente"
+    },
+    "mergeModes": {
+      "block_first": {
+        "label": "Bloqueo primero",
+        "help": "Si alguna entrada es bloquear, el resultado es bloquear. Si no, revisar tiene prioridad sobre permitir."
+      },
+      "priority": {
+        "label": "Primera decisión",
+        "help": "Se conserva la decisión más temprana. Una coincidencia de regla se usa antes que un resultado posterior del modelo."
+      },
+      "conflict_review": {
+        "label": "Conflicto a revisión",
+        "help": "Si permitir y bloquear aparecen a la vez, el resultado es revisar. Si no, gana bloquear, luego revisar y después permitir."
+      }
+    },
+    "issues": {
+      "missing_start": "Añada un nodo de inicio.",
+      "missing_end": "Añada un nodo de fin.",
+      "multiple_start": "Use un único nodo de inicio.",
+      "disconnected": "Hay un nodo que no se alcanza desde el inicio.",
+      "dangling_edge": "Una conexión apunta a un nodo inexistente.",
+      "cycle": "No se permiten ciclos.",
+      "condition_incomplete": "La rama necesita un campo, un operador y un valor.",
+      "condition_outputs": "Conecte las salidas de coincidencia y de no coincidencia.",
+      "rule_missing": "Elija una regla para este nodo.",
+      "model_missing": "Elija una capacidad para este nodo.",
+      "timeout_invalid": "Use un tiempo de espera entre 100 y 30000 ms.",
+      "merge_missing": "Elija un modo de fusión."
+    },
+    "reasons": {
+      "completed": "La simulación terminó.",
+      "validation_failed": "Corrija los problemas de validación antes de ejecutar.",
+      "model_timeout": "El nodo de modelo agotó el tiempo. Es un error, no una decisión de moderación.",
+      "dead_end": "Una ruta no llega al nodo siguiente.",
+      "cycle": "El recorrido encontró un ciclo."
+    },
+    "apiMethod": "Método API",
+    "apiPath": "Ruta API",
+    "apiTimeout": "Tiempo de API (ms)",
+    "apiNotice": "La ruta se guarda en el nodo. Este prototipo no la llama.",
+    "llmModel": "Modelo de lenguaje",
+    "llmPrompt": "Prompt",
+    "llmRag": "Fragmento RAG"
+  },
+  "Capabilities": {
+    "title": "Capacidades",
+    "description": "Registre los modelos que un flujo puede llamar. Activar una capacidad solo actualiza este catálogo de prototipo.",
+    "notConnected": "No se guardan credenciales. El tiempo de espera y el estado solo afectan al prototipo.",
+    "search": "Buscar por nombre o ID",
+    "boundary": "El centro de capacidades guarda el registro. El flujo decide cuándo llamar. La política de fusión interpreta el resultado.",
+    "customName": "Nombre personalizado",
+    "customNameHint": "Déjelo vacío para usar el nombre traducido del catálogo. Un nombre personalizado se conserva al cambiar el idioma.",
+    "timeout": "Tiempo de espera (ms)",
+    "statusLabel": "Estado",
+    "timeoutError": "Use un tiempo de espera entre 100 y 30000 ms.",
+    "saved": "Capacidad actualizada",
+    "columns": {
+      "id": "ID de capacidad",
+      "name": "Nombre",
+      "type": "Tipo",
+      "modalities": "Modalidades",
+      "version": "Versión",
+      "status": "Estado",
+      "timeout": "Tiempo de espera",
+      "actions": "Acciones"
+    }
+  },
+  "Lab": {
+    "title": "Laboratorio de evaluación",
+    "description": "Compare una versión candidata con un conjunto de demostración fijo. Aprobar la evaluación no la publica.",
+    "mockNotice": "Todos los recuentos de esta página salen de muestras de demostración incluidas, no de tráfico de producción.",
+    "candidate": "Candidata",
+    "dataset": "Conjunto de datos",
+    "rule": "Regla",
+    "workflow": "Flujo",
+    "start": "Iniciar evaluación",
+    "running": "Evaluando…",
+    "finished": "Evaluación registrada",
+    "failed": "No se pudo iniciar la evaluación",
+    "invalidWorkflow": "Valide el flujo antes de evaluarlo",
+    "baselineHelp": "El conjunto de línea base que falla marca un bloqueo histórico que la candidata permitiría. Ese fallo impide publicar.",
+    "total": "Muestras",
+    "changed": "Cambiado",
+    "plan": "Plan de ejecución {id}",
+    "planBody": "Reglas: {rules}. Capacidades: {capabilities}. Política de fusión: {policy}.",
+    "yes": "Sí",
+    "no": "No",
+    "emptyTitle": "No hay una evaluación seleccionada",
+    "emptyBody": "Ejecute una evaluación para ver la tabla de casos.",
+    "datasets": {
+      "ds_mirror": "Conjunto espejo",
+      "ds_baseline_pass": "Línea base, se espera aprobación",
+      "ds_baseline_fail": "Línea base, se espera un fallo"
+    },
+    "policies": {
+      "block_first": "Bloqueo primero",
+      "priority": "Primera decisión",
+      "conflict_review": "Conflicto a revisión"
+    },
+    "caseStatus": {
+      "unchanged": "Sin cambios",
+      "changed": "Cambiado",
+      "regressed": "Regresión"
+    },
+    "columns": {
+      "sample": "ID de muestra",
+      "summary": "Resumen",
+      "baseline": "Decisión de línea base",
+      "candidate": "Decisión candidata",
+      "changed": "Cambiado",
+      "status": "Estado de evaluación",
+      "review": "Revisión humana"
+    },
+    "samples": {
+      "m1": "Actualización breve de producto sin marca de riesgo.",
+      "m2": "Ejemplo que debe seguir bloqueado.",
+      "m3": "Ejemplo que debe seguir en revisión.",
+      "m4": "Nota limpia que la candidata envía a revisión.",
+      "m5": "Ejemplo bloqueado que la candidata permitiría.",
+      "m6": "Ejemplo de revisión que la candidata bloquearía.",
+      "p1": "Caso de bloqueo conocido, sigue bloqueado.",
+      "p2": "Caso de revisión conocido, sigue en revisión.",
+      "p3": "Caso de permiso conocido, sigue permitido.",
+      "p4": "Caso de bloqueo conocido, sigue bloqueado.",
+      "f1": "Caso de bloqueo conocido, sigue bloqueado.",
+      "f2": "Caso de revisión conocido, sigue en revisión.",
+      "f3": "Caso de permiso conocido, sigue permitido.",
+      "f4": "Caso de bloqueo conocido que la candidata permitiría."
+    }
+  },
+  "Releases": {
+    "title": "Publicaciones",
+    "description": "Publique solo tras la validación, una evaluación espejo aprobada y una regresión de línea base aprobada. La reversión restaura el puntero de la versión anterior.",
+    "mockNotice": "Publicar y revertir solo cambian el estado del prototipo en este navegador.",
+    "target": "Objetivo",
+    "gateTitle": "Puerta de publicación",
+    "checks": {
+      "validation": "Validación estática",
+      "mirror": "Evaluación espejo",
+      "baseline": "Regresión de línea base"
+    },
+    "pass": "Aprobado",
+    "fail": "No aprobado",
+    "alreadyLive": "Esta candidata ya es la versión en vigor.",
+    "planNote": "La puerta usa planes de ejecución cuya huella coincide con la candidata actual ({id}).",
+    "publish": "Publicar",
+    "rollback": "Revertir",
+    "blocked": "La publicación permanece desactivada hasta que todas las puertas estén en verde y una persona lo confirme.",
+    "confirmPublish": "Confirme la publicación. Esto no contacta un entorno de producción.",
+    "confirmRollback": "Confirme la reversión a la versión publicada anterior.",
+    "note": "Nota",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "published": "Publicación de prototipo registrada",
+    "rolledBack": "Reversión de prototipo registrada",
+    "rejected": "La puerta rechazó la acción",
+    "noPrevious": "No hay una versión publicada anterior para restaurar",
+    "version": "Versión",
+    "status": "Estado",
+    "summary": "Resumen del cambio",
+    "live": "En vigor",
+    "yes": "Sí",
+    "no": "No",
+    "history": "Registros de publicación",
+    "emptyTitle": "No hay registros de publicación",
+    "emptyBody": "Publique una candidata para crear el primer registro.",
+    "actor": "Operador del prototipo, sin autenticación",
+    "actions": {
+      "publish": "Publicar",
+      "rollback": "Reversión"
+    }
+  },
+  "Audit": {
+    "title": "Registro de auditoría",
+    "description": "Son trazas de moderación de ejemplo. No contienen datos personales ni contenido de clientes.",
+    "mockNotice": "Estas filas son registros fijos de demostración.",
+    "search": "ID de solicitud",
+    "emptyTitle": "No hay registros",
+    "emptyBody": "Ajuste los filtros.",
+    "rules": "Coincidencias de reglas",
+    "models": "Llamadas al modelo",
+    "trace": "Traza del flujo",
+    "reason": "Motivo",
+    "noRules": "Ninguna regla coincidió.",
+    "noModels": "No hubo llamada al modelo.",
+    "errorTitle": "Error de servicio {code}",
+    "errorBody": "La solicitud falló antes de producir una decisión.",
+    "columns": {
+      "request": "ID de solicitud",
+      "application": "Aplicación",
+      "scene": "Escena",
+      "input": "Entrada",
+      "decision": "Decisión",
+      "labels": "Etiquetas de riesgo",
+      "status": "Estado",
+      "latency": "Latencia",
+      "created": "Creado",
+      "actions": "Acciones"
+    },
+    "summaries": {
+      "aud_1": "Publicación de comunidad de demostración sobre una actualización de producto.",
+      "aud_2": "Publicación de demostración con la marca pública de bloqueo.",
+      "aud_3": "Respuesta de asistente de demostración retenida para revisión.",
+      "aud_4": "Imagen de comentario de demostración retenida como muestra de bloqueo.",
+      "aud_5": "Llamada de asistente de demostración que falló con un error de servicio.",
+      "aud_6": "Publicación de demostración enviada a revisión por una palabra clave.",
+      "aud_7": "Imagen de comentario de demostración sin etiqueta de riesgo."
+    },
+    "reasons": {
+      "aud_1": "Ninguna regla de demostración coincidió y la muestra del modelo devolvió permitir.",
+      "aud_2": "La regla de palabra clave recomendó bloquear, así que la fusión se detuvo ahí.",
+      "aud_3": "La muestra del modelo devolvió revisión.",
+      "aud_4": "La muestra de la capacidad de imagen devolvió bloquear.",
+      "aud_5": "La llamada al modelo falló. No se guardó una decisión.",
+      "aud_6": "La palabra clave de revisión recomendó revisión humana.",
+      "aud_7": "La muestra de la capacidad de imagen devolvió permitir."
+    }
+  },
+  "Tasks": {
+    "title": "Tareas asíncronas",
+    "description": "Los trabajos por lotes son distintos de la comprobación síncrona. Esta página no usa una cola real.",
+    "details": "Detalles",
+    "progress": "{processed} de {total} procesados",
+    "failures": "Elementos fallidos",
+    "noFailures": "No hay elementos fallidos.",
+    "retry": "Reintentar",
+    "cancel": "Cancelar",
+    "retried": "Reintento simulado. La tarea se completará en local.",
+    "notRetryable": "Solo se pueden reintentar las tareas fallidas o con fallo parcial.",
+    "cancelled": "Tarea cancelada en el prototipo",
+    "notCancellable": "Solo se pueden cancelar las tareas en cola o en ejecución.",
+    "columns": {
+      "id": "ID de tarea",
+      "type": "Tipo",
+      "status": "Estado",
+      "total": "Total",
+      "processed": "Procesado",
+      "failed": "Fallido",
+      "created": "Creado",
+      "actions": "Acciones"
+    },
+    "failureReasons": {
+      "timeout": "El elemento de demostración agotó el tiempo.",
+      "unsupported_type": "Se rechazó el tipo de archivo de demostración.",
+      "too_large": "El archivo de demostración superó el límite de tamaño.",
+      "service_unavailable": "La dependencia de demostración no estaba disponible."
+    }
+  },
+  "Settings": {
+    "title": "Ajustes",
+    "description": "Preferencias del prototipo y límites compartidos. La seguridad de la cuenta no está conectada.",
+    "persistence": "Las reglas, los flujos y las publicaciones se guardan en localStorage de este navegador. Ese almacenamiento no es una base de datos ni aísla inquilinos.",
+    "limitsTitle": "Límites compartidos",
+    "textLimit": "Límite de texto: {count} caracteres.",
+    "imageLimit": "Límite de imagen: {size}.",
+    "rateLimit": "Cuota de demostración: {count} ejecuciones por minuto en este navegador.",
+    "plannedTitle": "No conectado",
+    "plannedBadge": "No conectado",
+    "planned": [
+      "Autenticación de servidor y roles",
+      "Aislamiento de inquilinos",
+      "Emisión de claves de API",
+      "Credenciales del endpoint del modelo",
+      "Límites de frecuencia en el servidor",
+      "Exportación de auditoría a un almacén duradero"
+    ],
+    "reset": "Restablecer datos del prototipo",
+    "resetConfirm": "¿Reemplazar los datos locales del prototipo por los registros de demostración originales?",
+    "resetDone": "Datos de demostración restaurados",
+    "cancel": "Cancelar"
+  },
+  "Ops": {
+    "operatorOnly": "Esta página está disponible para el rol de operador en esta sesión de prototipo.",
+    "operator": "Operador",
+    "customer": "Cliente",
+    "unsigned": "Sesión de prototipo",
+    "signOut": "Cerrar sesión",
+    "role": "Rol",
+    "tenant": "Inquilino",
+    "tenantDemo": "Comunidad de demostración",
+    "tenantRetail": "Comercio de demostración",
+    "templatesTitle": "Plantillas de reglas",
+    "templatesBody": "Combine etiquetas y reglas existentes en un conjunto para una escena. Cítelo en un canal para que esas reglas usen ese alcance.",
+    "templateNotice": "Citar escribe la escena, la aplicación y las etiquetas en las reglas elegidas, dentro de este navegador. Publicar sigue exigiendo validación, espejo y una línea base aprobada.",
+    "name": "Nombre",
+    "type": "Tipo",
+    "description": "Descripción",
+    "saveTemplate": "Guardar plantilla",
+    "templateSaved": "Plantilla guardada en este navegador",
+    "nameRequired": "Escriba un nombre antes de guardar",
+    "labelsTitle": "Etiquetas",
+    "labelsBody": "Defina una etiqueta, añada ejemplos positivos y negativos, y exporte la lista de reglas.",
+    "definition": "Definición",
+    "positive": "Ejemplos positivos",
+    "negative": "Ejemplos negativos",
+    "saveLabel": "Guardar etiqueta",
+    "labelSaved": "Etiqueta guardada en este navegador",
+    "exportRules": "Exportar reglas",
+    "exported": "CSV descargado",
+    "ruleId": "ID de regla",
+    "label": "Etiqueta",
+    "status": "Estado",
+    "tuningTitle": "Ajuste del modelo grande",
+    "tuningBody": "Adjunte un prompt y notas de recuperación, y depure una muestra en local.",
+    "tuningNotice": "El endpoint se guarda en este navegador. La depuración se ejecuta aquí y no envía la muestra a esa dirección.",
+    "endpoint": "Endpoint del modelo",
+    "endpointHint": "Se guarda para una integración posterior. Este prototipo no lo llama.",
+    "prompt": "Prompt integrado",
+    "rag": "Notas de recuperación",
+    "ragHint": "Una nota por línea. Solo las usa la depuración local.",
+    "saveTuning": "Guardar ajuste",
+    "tuningSaved": "Ajuste guardado en este navegador",
+    "debugInput": "Entrada de depuración",
+    "runDebug": "Ejecutar depuración local",
+    "debugEmpty": "Ejecute una muestra para ver el JSON simulado.",
+    "insightsTitle": "Información por inquilino",
+    "insightsBody": "Revise el historial de solicitudes y la tendencia simulada de aciertos por etiqueta.",
+    "insightsNotice": "Los recuentos son datos simulados, no volumen real. Una sesión de cliente solo muestra ese inquilino.",
+    "tenantLocked": "Esta sesión muestra solo el inquilino de la sesión. Es un filtro del navegador, no aislamiento de servidor.",
+    "trendTitle": "Tendencia de aciertos",
+    "request": "Solicitud",
+    "app": "Aplicación",
+    "decision": "Decisión",
+    "labels": "Etiquetas",
+    "when": "Hora",
+    "noDecision": "Sin decisión",
+    "orgTitle": "Aplicaciones y canales",
+    "orgBody": "Añada aplicaciones y canales dentro de cada inquilino.",
+    "appName": "Nombre de la aplicación",
+    "addApp": "Añadir aplicación",
+    "appSaved": "Aplicación guardada en este navegador",
+    "application": "Aplicación",
+    "channel": "Canal",
+    "channelName": "Nombre del canal",
+    "channelKind": "Tipo de canal",
+    "addChannel": "Añadir canal",
+    "channelSaved": "Canal guardado en este navegador",
+    "kind": {
+      "text": "Texto",
+      "image": "Imagen",
+      "mixed": "Texto e imagen",
+      "video": "Vídeo",
+      "audio": "Audio"
+    },
+    "rollbackTitle": "Reversión en un paso",
+    "rollbackBody": "Restaure la versión anterior del modelo, la estrategia publicada o la regla de términos publicada.",
+    "models": "Modelos",
+    "strategies": "Estrategias",
+    "keywords": "Términos sensibles",
+    "rollback": "Revertir",
+    "rolledBack": "Reversión registrada",
+    "noPrevious": "No hay una versión anterior",
+    "oneClickNote": "Reversión de prototipo en un paso.",
+    "compare": {
+      "gt": "Mayor que",
+      "lt": "Menor que",
+      "eq": "Igual a"
+    },
+    "score": "Puntuación",
+    "riskLabel": "Etiqueta de riesgo",
+    "riskType": "Tipo de riesgo",
+    "dispose": "Aplicar la decisión",
+    "conditions": "Condiciones extra",
+    "addConstant": "Añadir constante",
+    "addVariable": "Añadir variable",
+    "constant": "Constante",
+    "remove": "Quitar",
+    "template": "Plantilla",
+    "noTemplate": "Empezar en blanco",
+    "storageTitle": "Guardar extractos de detección",
+    "storageBody": "Si está desactivado, el laboratorio no conserva extractos de texto de ese inquilino.",
+    "playgroundPrompt": "La detección usa el prompt integrado en este navegador. La muestra no se envía a una dirección externa.",
+    "reviewPending": "Sin revisión",
+    "sample": "Muestra",
+    "review": "Revisión humana",
+    "exportReview": "Exportar revisión",
+    "ruleType": {
+      "keyword": "Palabra clave",
+      "ignore_term": "Término ignorado",
+      "regex": "Expresión regular",
+      "structured": "Estructurada",
+      "model_threshold": "Puntuación del modelo"
+    },
+    "compareLabel": "Comparación",
+    "pickVariable": "Elegir variable",
+    "batchEnable": "Activar",
+    "batchDisable": "Desactivar",
+    "batchClose": "Cerrar",
+    "batchDelete": "Eliminar",
+    "selectedCount": "{count} seleccionadas",
+    "batchEmpty": "Selecciona al menos una regla.",
+    "batchDone": "Reglas actualizadas.",
+    "pickLabel": "Elegir etiqueta",
+    "sceneStrategy": "Estrategia de escena",
+    "strategyLabels": "Etiquetas de la estrategia",
+    "expected": "Esperado",
+    "templateFilter": "Filtrar plantillas",
+    "templateSearch": "Buscar por nombre",
+    "allScenes": "Todas las escenas",
+    "templateCompose": "Combinar etiquetas y reglas",
+    "templateScene": "Escena",
+    "templateRules": "Reglas",
+    "applyScope": "Aplicar a un alcance",
+    "pickChannel": "Elegir un canal",
+    "templateApply": "Citar y aplicar",
+    "templateApplyHint": "El canal fija la aplicación y la escena. Cada regla conserva su estado y recibe las etiquetas de la plantilla.",
+    "templateApplied": "Aplicado a {count} reglas",
+    "templatePick": "Elija una plantilla guardada y un canal."
+  },
+  "Catalog": {
+    "labelsBody": "Las etiquetas forman un árbol. Añada hijas bajo una madre y asocie cada etiqueta a una o más escenas.",
+    "labelSearch": "Buscar etiquetas o escenas",
+    "noScene": "Sin escena",
+    "addChild": "Añadir hija",
+    "parent": "Madre",
+    "root": "Nivel superior",
+    "scenes": "Escenas",
+    "sceneCombo": "Combinar por escena",
+    "sceneComboHint": "Elija una escena y marque las etiquetas de esa combinación.",
+    "saved": "Guardado",
+    "hasChildren": "Quite primero las etiquetas hijas.",
+    "deleted": "Eliminado",
+    "variablesTitle": "Variables",
+    "variablesBody": "Valores con nombre que las condiciones del modelo y las reglas estructuradas pueden usar.",
+    "varKey": "Clave",
+    "varType": "Tipo",
+    "string": "Texto",
+    "number": "Número",
+    "varValue": "Valor",
+    "save": "Guardar",
+    "edit": "Editar",
+    "librariesTitle": "Bibliotecas de reglas",
+    "librariesBody": "Cada tipo de regla tiene su biblioteca. Añada, edite, elimine, exporte o importe filas de ese tipo.",
+    "export": "Exportar CSV",
+    "import": "Importar CSV",
+    "payload": "Contenido",
+    "payloadHint": "Términos, un patrón o una condición breve. Cada biblioteca permanece en su tipo.",
+    "imported": "Importado",
+    "knowledgeTitle": "Conocimiento, prompts y RAG",
+    "knowledgeBody": "Guarde notas, prompts y fragmentos de recuperación en este navegador. La detección sigue siendo local.",
+    "localNotice": "Nada de esta página se envía a una dirección externa. Los resultados se simulan en este navegador.",
+    "documents": "Conocimiento",
+    "docTitle": "Título",
+    "docBody": "Texto",
+    "prompts": "Prompts",
+    "promptBody": "Prompt",
+    "ragEntries": "Fragmentos RAG",
+    "pickDoc": "Elegir",
+    "llmLabTitle": "Laboratorio de modelos",
+    "llmLabBody": "Compare un prompt y fragmentos RAG entre modelos de lenguaje de la plataforma. Suba o descargue casos en CSV.",
+    "models": "Modelos",
+    "caseInput": "Caso",
+    "expected": "Decisión esperada",
+    "addCase": "Añadir caso",
+    "run": "Ejecutar",
+    "download": "Descargar casos",
+    "upload": "Subir casos",
+    "ran": "Comparación terminada",
+    "delete": "Quitar",
+    "downloadResults": "Descargar resultados",
+    "interceptTitle": "Prueba en recursos del cliente",
+    "interceptBody": "Ejecute una línea o un lote contra las reglas actuales guardadas para un cliente.",
+    "interceptNotice": "El resultado usa las reglas guardadas en este navegador. Es una decisión simulada.",
+    "tenantLocked": "Inquilino",
+    "tenant": "Cliente",
+    "single": "Un caso",
+    "runSingle": "Probar uno",
+    "batch": "Lote",
+    "batchHint": "Un caso por línea, hasta 50.",
+    "runBatch": "Probar lote",
+    "status": "Estado",
+    "decision": "Decisión",
+    "hits": "Reglas coincidentes",
+    "queryTitle": "Consulta de registros",
+    "queryBody": "Escriba un SELECT sobre logs o history y exporte las filas.",
+    "queryNotice": "Solo se acepta SELECT de logs o history. Los filtros usan = o LIKE, unidos con AND.",
+    "sql": "SQL",
+    "runSql": "Ejecutar consulta",
+    "exported": "CSV descargado",
+    "bindTitle": "Etiqueta y escena",
+    "bindHint": "Elija en la lista fija de etiqueta y escena. La búsqueda admite coincidencia parcial.",
+    "queryError": {
+      "syntax": "Use un solo SELECT de logs o history.",
+      "table": "La tabla debe ser logs o history.",
+      "column": "Esa columna no está en la tabla."
+    },
+    "annotation": "Nota",
+    "importLabels": "Importar etiquetas",
+    "levelHint": "El árbol muestra solo el primer nivel hasta que se expande una fila. La importación admite cuatro niveles.",
+    "depthLimit": "Las etiquetas llegan hasta cuatro niveles.",
+    "modality": "Medio",
+    "sceneStrategy": "Estrategia de escena",
+    "uploadSheet": "Subir tabla",
+    "importOnline": "Importar registros en línea",
+    "savedQueries": "Consultas guardadas",
+    "queryName": "Nombre de la consulta",
+    "saveQuery": "Guardar consulta",
+    "deleteQuery": "Eliminar consulta",
+    "effectTitle": "Prueba de efecto",
+    "effectBody": "Sube una tabla o importa registros de auditoría. Esta ejecución queda en el navegador y es simulada.",
+    "media": {
+      "text": "Texto",
+      "image": "Imagen",
+      "video": "Vídeo",
+      "audio": "Audio"
+    },
+    "rulesModule": "Reglas",
+    "rulesModuleBody": "Las reglas nuevas y las bibliotecas son dos partes de este módulo. Ambas quedan en este navegador.",
+    "rulesSection": "Reglas",
+    "labelFilter": "Filtrar por etiqueta",
+    "varSearch": "Buscar por clave o nombre",
+    "queryFields": "Campos de consulta",
+    "fieldHint": "Todos los campos del historial guardado están disponibles. No se muestran hasta que los marques.",
+    "condition": "Valor",
+    "contains": "Contiene",
+    "equals": "Igual a",
+    "pickFields": "Marca los campos que quieres usar.",
+    "downloadTemplate": "Descargar plantilla",
+    "downloadSelected": "Descargar campos seleccionados",
+    "bindLabels": "Vincular etiquetas",
+    "referencedLabels": "Contenido de etiquetas referenciadas",
+    "runExamples": "Ejemplos de ejecución",
+    "resultFieldHint": "Todos los campos del resultado están disponibles. No se muestran ni se descargan hasta que los marques.",
+    "dataLimit": "Filas",
+    "importSamples": "Importar de la biblioteca de muestras",
+    "samplePolarity": "Negra o blanca",
+    "blackLimit": "Cantidad de muestras negras",
+    "whiteLimit": "Cantidad de muestras blancas",
+    "samplesTitle": "Biblioteca de muestras",
+    "samplesBody": "Suba y descargue muestras, y asócielas a etiquetas, recursos, una aplicación y un canal. La importación queda en este navegador.",
+    "sampleSearch": "Buscar texto de la muestra",
+    "sampleForm": "Muestra",
+    "resource": "Recurso",
+    "application": "Aplicación",
+    "channel": "Canal",
+    "selectedFields": "{count} seleccionados",
+    "auditFieldHint": "Estos campos son los que guarda cada registro de auditoría. Marque los que quiere ver y filtrar.",
+    "polarity": {
+      "all": "Todas",
+      "black": "Negra",
+      "white": "Blanca"
+    },
+    "auditField": {
+      "serial": "Número de serie",
+      "createdAt": "Hora",
+      "application": "Aplicación",
+      "channel": "Canal",
+      "scene": "Escena",
+      "ruleIds": "Reglas acertadas",
+      "decision": "Decisión",
+      "status": "Estado",
+      "inputType": "Tipo de entrada",
+      "riskLabels": "Etiquetas de riesgo",
+      "latencyMs": "Latencia",
+      "id": "Id del registro"
+    },
+    "fieldGroup": {
+      "record": "Registro",
+      "scope": "Alcance",
+      "hit": "Aciertos",
+      "extra": "Otros campos"
+    }
+  }
+}

@@ -10,9 +10,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       lang="en"
       suppressHydrationWarning
       data-scroll-behavior="smooth"
-      className="dark h-full antialiased"
+      className="h-full antialiased"
     >
-      <body className="flex min-h-full flex-col bg-slate-950 font-sans text-slate-100">
+      <body className="flex min-h-full flex-col bg-background font-sans text-foreground">
         {children}
       </body>
     </html>

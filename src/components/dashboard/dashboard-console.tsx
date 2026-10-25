@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import {
   ArrowDownToLine,
   Bot,
@@ -410,6 +410,8 @@ function LogRow({
   checked: boolean;
   onCheck: (checked: boolean) => void;
 }) {
+  const locale = useLocale();
+  const dateLocale = locale === "zh" ? "zh-CN" : locale;
   return (
     <TableRow className="border-white/5 hover:bg-white/[0.03]">
       <TableCell>
@@ -421,7 +423,7 @@ function LogRow({
         />
       </TableCell>
       <TableCell className="whitespace-nowrap text-slate-300">
-        {new Date(row.timestamp).toLocaleString(undefined, {
+        {new Date(row.timestamp).toLocaleString(dateLocale, {
           month: "short",
           day: "2-digit",
           hour: "2-digit",
