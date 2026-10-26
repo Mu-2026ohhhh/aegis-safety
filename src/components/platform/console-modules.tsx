@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import {
   DecisionBadge,
@@ -19,12 +19,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "@/i18n/navigation";
 import { CaseSheetBar, QueryFields, type FieldGroup } from "@/components/platform/case-batch";
-import { presentAudit } from "@/lib/platform/audit-present";
+import { TestReport, isSeedAudit } from "@/components/platform/test-report";
+import { auditGroupFields, presentAudit } from "@/lib/platform/audit-present";
 import { downloadCsv, hitSeries } from "@/lib/platform/csv";
 import { interceptText } from "@/lib/platform/intercept";
 import { releaseGate } from "@/lib/platform/governance";
 import { moderationLimits } from "@/lib/platform/limits";
-import { auditRecords, datasets } from "@/lib/platform/seed";
+import { datasets } from "@/lib/platform/seed";
 import { OperatorGate, useSession } from "@/lib/platform/session";
 import { usePrototypeStore } from "@/lib/platform/store";
 import type { AuditRecord, Capability, Decision } from "@/lib/platform/types";
@@ -50,7 +51,7 @@ export function OverviewView() {
   return (
     <div className="space-y-5">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-zinc-950 tracking-tight">{t("overviewTitle")}</h1>
+        <h1 className="text-2xl font-semibold tracking-tight text-zinc-950">{t("overviewTitle")}</h1>
         <p className="mt-1 max-w-2xl text-sm text-zinc-500">{t("overviewBody")}</p>
       </div>
       <div className="grid gap-4">
@@ -88,7 +89,7 @@ export function OverviewView() {
         </div>
       </div>
       <section className="overflow-hidden rounded-2xl border border-zinc-200 bg-white p-5">
-        <h2 className="text-sm font-medium">{t("signalTitle")}</h2>
+        <h2 className="text-lg font-semibold tracking-tight text-zinc-900">{t("signalTitle")}</h2>
         <div className="mt-4 space-y-3">
           {trend.map((item) => (
             <div key={item.label} className="grid grid-cols-[8rem_minmax(0,1fr)_2.5rem] items-center gap-3 text-sm">
@@ -378,28 +379,13 @@ export function LabView() {
           }}
         />
         {effect.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[640px] text-left text-sm">
-              <thead className="text-xs text-slate-500">
-                <tr>
-                  <th className="px-2 py-2">{catalog("caseInput")}</th>
-                  <th className="px-2 py-2">{catalog("expected")}</th>
-                  <th className="px-2 py-2">{catalog("status")}</th>
-                  <th className="px-2 py-2">{catalog("decision")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {effect.map((row) => (
-                  <tr key={row.input} className="border-t border-slate-100">
-                    <td className="px-2 py-2">{row.input}</td>
-                    <td className="px-2 py-2">{row.expected}</td>
-                    <td className="px-2 py-2">{row.status}</td>
-                    <td className="px-2 py-2">{row.decision}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <TestReport
+            source={`lab-effect-${targetId}`}
+            cases={effect.map((row) => ({
+              ...row,
+              capabilityIds: targetType === "workflow" ? ["cap_text_llm"] : ["cap_text_small"],
+            }))}
+          />
         ) : null}
       </div>
       {run ? (
@@ -483,6 +469,16 @@ export function LabView() {
               </tbody>
             </table>
           </div>
+          <TestReport
+            source={`lab-run-${run.id}`}
+            cases={run.cases.map((item) => ({
+              input: t(`samples.${item.sampleId}`),
+              expected: item.baselineDecision,
+              decision: item.candidateDecision === "error" ? "" : item.candidateDecision,
+              status: item.candidateDecision === "error" ? "error" : "success",
+              capabilityIds: plan?.capabilityVersionIds.length ? ["cap_text_small"] : ["cap_text_small"],
+            }))}
+          />
           <Button
             variant="outline"
             onClick={() => {
@@ -556,7 +552,7 @@ export function ReleasesView() {
         <SimpleSelect value={target} onChange={setTarget} options={options} />
       </Field>
       <div className="rounded-xl border border-slate-200 bg-white p-4">
-        <h2 className="text-sm font-semibold">{t("gateTitle")}</h2>
+        <h2 className="text-lg font-semibold tracking-tight text-zinc-900">{t("gateTitle")}</h2>
         <ul className="mt-3 space-y-2 text-sm">
           {gate?.checks.map((check) => (
             <li key={check.id} className={check.ok ? "text-emerald-700" : "text-red-700"}>
@@ -641,7 +637,7 @@ export function ReleasesView() {
         </table>
       </div>
       <div className="space-y-2">
-        <h2 className="text-sm font-semibold">{t("history")}</h2>
+        <h2 className="text-lg font-semibold tracking-tight text-zinc-900">{t("history")}</h2>
         {records.length === 0 ? (
           <EmptyState title={t("emptyTitle")} description={t("emptyBody")} />
         ) : (
@@ -677,10 +673,17 @@ export function AuditView() {
   const store = usePrototypeStore();
   const { session } = useSession();
   const [active, setActive] = useState<AuditRecord | null>(null);
+  const [focus, setFocus] = useState("");
+  useEffect(() => {
+    const value = sessionStorage.getItem("aegis_audit_focus") ?? "";
+    if (!value) return;
+    sessionStorage.removeItem("aegis_audit_focus");
+    setFocus(value);
+  }, []);
 
   const presented = useMemo(
     () =>
-      auditRecords
+      store.state.auditRecords
         .filter((record) => {
           if (session?.role !== "customer") return true;
           const tenantId = store.state.applications.find((item) => item.id === record.applicationId)?.tenantId;
@@ -692,16 +695,17 @@ export function AuditView() {
             application: store.state.applications.find((item) => item.id === record.applicationId)?.name ?? record.applicationId,
             channel: store.state.channels.find((item) => item.id === record.channelId)?.name ?? record.channelId,
             scene: scope(record.sceneId),
+            capability: (id) => store.state.capabilities.find((item) => item.id === id)?.customName || enums(`capabilities.${id}`),
           }),
         })),
-    [scope, session, store.state.applications, store.state.channels]
+    [enums, scope, session, store.state.applications, store.state.auditRecords, store.state.capabilities, store.state.channels]
   );
   const labels = Object.fromEntries(Object.keys(presented[0]?.flat ?? {}).map((field) => [field, catalog(`auditField.${field}`)]));
-  const groups: FieldGroup[] = [
-    { id: "record", label: catalog("fieldGroup.record"), fields: ["serial", "createdAt", "id"] },
-    { id: "scope", label: catalog("fieldGroup.scope"), fields: ["application", "channel", "scene"] },
-    { id: "hit", label: catalog("fieldGroup.hit"), fields: ["decision", "ruleIds", "status", "inputType", "riskLabels", "latencyMs"] },
-  ];
+  const groups: FieldGroup[] = auditGroupFields.map((group) => ({
+    id: group.id,
+    label: catalog(`fieldGroup.${group.id}`),
+    fields: [...group.fields],
+  }));
 
   return (
     <div className="space-y-4">
@@ -710,10 +714,11 @@ export function AuditView() {
       <PrototypeBanner>{t("mockNotice")}</PrototypeBanner>
       <QueryFields
         rows={presented.map((item) => item.flat)}
-        defaultFields={["serial", "createdAt", "application", "channel", "ruleIds"]}
+        defaultFields={["serial", "createdAt", "content", "contentMd5", "capabilities", "application", "channel", "ruleIds"]}
         labels={labels}
         groups={groups}
         hint={catalog("auditFieldHint")}
+        focus={focus}
       >
         {(matched, selected) => {
           const ids = new Set(matched.map((row) => row.id));
@@ -748,7 +753,7 @@ export function AuditView() {
                           ) : field === "latencyMs" ? (
                             format.number(record.latencyMs)
                           ) : (
-                            flat[field] || "—"
+                            <span className={field === "content" ? "block max-w-xs truncate" : undefined} title={flat[field]}>{flat[field] || "—"}</span>
                           )}
                         </td>
                       ))}
@@ -768,7 +773,9 @@ export function AuditView() {
       <Drawer open={Boolean(active)} title={active?.requestId ?? ""} onClose={() => setActive(null)} wide>
         {active ? (
           <div className="space-y-4 text-sm">
-            <p>{t(`summaries.${active.id}`)}</p>
+            <p>{isSeedAudit(active.id) ? t(`summaries.${active.id}`) : active.content}</p>
+            <Section title={catalog("auditField.content")}>{active.content || "—"}</Section>
+            <Section title={catalog("auditField.contentMd5")}>{active.contentMd5 || "—"}</Section>
             <Section title={catalog("channel")}>
               {store.state.channels.find((item) => item.id === active.channelId)?.name ?? active.channelId}
             </Section>
@@ -785,17 +792,17 @@ export function AuditView() {
                 ? t("noRules")
                 : active.ruleHits.map((hit) => `${hit.ruleId} v${hit.version} · ${hit.action}`).join(", ")}
             </Section>
-            <Section title={t("models")}>
+            <Section title={catalog("auditField.capabilities")}>
               {active.modelCalls.length === 0
                 ? t("noModels")
                 : active.modelCalls
-                    .map((call) => `${call.capabilityId} · ${call.status} · ${format.number(call.latencyMs)}`)
+                    .map((call) => `${store.state.capabilities.find((item) => item.id === call.capabilityId)?.customName || enums(`capabilities.${call.capabilityId}`)} · ${call.status}`)
                     .join("\n")}
             </Section>
             <Section title={t("trace")}>
               {active.trace.map((step) => enums(`trace.${step}`)).join(" → ")}
             </Section>
-            <Section title={t("reason")}>{t(`reasons.${active.id}`)}</Section>
+            <Section title={t("reason")}>{isSeedAudit(active.id) ? t(`reasons.${active.id}`) : catalog("testReason")}</Section>
           </div>
         ) : null}
       </Drawer>
@@ -940,7 +947,7 @@ export function SettingsView() {
       <p className="max-w-3xl text-sm text-slate-600">{t("description")}</p>
       <PrototypeBanner>{t("persistence")}</PrototypeBanner>
       <div className="space-y-3 rounded-xl border border-slate-200 bg-white p-4">
-        <h2 className="text-sm font-semibold">{ops("storageTitle")}</h2>
+        <h2 className="text-lg font-semibold tracking-tight text-zinc-900">{ops("storageTitle")}</h2>
         <p className="text-sm text-slate-600">{ops("storageBody")}</p>
         {store.state.tenants
           .filter((tenant) => session?.role !== "customer" || tenant.id === session.tenantId)
@@ -964,7 +971,7 @@ export function SettingsView() {
         </ul>
       </div>
       <div className="rounded-xl border border-slate-200 bg-white p-4">
-        <h2 className="text-sm font-semibold">{t("plannedTitle")}</h2>
+        <h2 className="text-lg font-semibold tracking-tight text-zinc-900">{t("plannedTitle")}</h2>
         <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-slate-700">
           {planned.map((item) => (
             <li key={item}>

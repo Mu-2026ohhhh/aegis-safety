@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -42,17 +42,41 @@ export function LeadForm({
   description,
 }: LeadFormProps) {
   const t = useTranslations("LeadForm");
+  const locale = useLocale();
   const [intent, setIntent] = useState<LeadIntent>(defaultIntent);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const form = new FormData(event.currentTarget);
     setLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 900));
-    setLoading(false);
-    setSubmitted(true);
-    onSuccess?.();
+    setFailed(false);
+    try {
+      const response = await fetch("/api/inquiries", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          kind: "lead",
+          name: form.get("name"),
+          email: form.get("email"),
+          company: form.get("company"),
+          intent,
+          locale,
+        }),
+      });
+      if (!response.ok) {
+        setFailed(true);
+        return;
+      }
+      setSubmitted(true);
+      onSuccess?.();
+    } catch {
+      setFailed(true);
+    } finally {
+      setLoading(false);
+    }
   }
 
   function handleOpenChange(next: boolean) {
@@ -61,6 +85,7 @@ export function LeadForm({
       setTimeout(() => {
         setSubmitted(false);
         setLoading(false);
+        setFailed(false);
         setIntent(defaultIntent);
       }, 200);
     }
@@ -155,12 +180,13 @@ export function LeadForm({
                     <SelectItem value="analytics">
                       {t("intentAnalytics")}
                     </SelectItem>
-                    <SelectItem value="sandbox">Sandbox unlock</SelectItem>
+                    <SelectItem value="sandbox">{t("intentSandbox")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
 
+            {failed ? <p className="text-sm text-rose-300">{t("error")}</p> : null}
             <DialogFooter className="border-white/10 bg-transparent p-0 sm:justify-stretch">
               <Button
                 type="submit"

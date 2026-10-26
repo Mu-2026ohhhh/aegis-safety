@@ -16,6 +16,7 @@ import {
 } from "@/components/platform/ui";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { TestReport } from "@/components/platform/test-report";
 import { consumePlaygroundQuota, moderationLimits } from "@/lib/platform/limits";
 import { useSession } from "@/lib/platform/session";
 import { usePrototypeStore } from "@/lib/platform/store";
@@ -28,7 +29,7 @@ import {
   type ImageSampleId,
   type TextSampleId,
 } from "@/lib/platform/moderation";
-import type { ModerationResponse } from "@/lib/platform/types";
+import type { Decision, ModerationResponse } from "@/lib/platform/types";
 import { cn } from "@/lib/utils";
 
 const textSamples: Array<TextSampleId | "custom"> = ["safe", "risk", "review", "outage", "custom"];
@@ -75,12 +76,15 @@ export function PlaygroundView() {
 
 function TextLab() {
   const t = useTranslations("Play");
+  const catalog = useTranslations("Catalog");
+  const enums = useTranslations("Enums");
   const ops = useTranslations("Ops");
   const store = usePrototypeStore();
   const { session } = useSession();
   const [sample, setSample] = useState<TextSampleId | "custom">("review");
   const [text, setText] = useState(t("samples.review"));
   const [sceneId, setSceneId] = useState("default");
+  const [expected, setExpected] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ModerationResponse | null>(null);
   const [formError, setFormError] = useState("");
@@ -201,6 +205,16 @@ function TextLab() {
               ]}
             />
           </Field>
+          <Field label={catalog("expected")}>
+            <SimpleSelect
+              value={expected || "unset"}
+              onChange={(value) => setExpected(value === "unset" ? "" : value)}
+              options={[
+                { value: "unset", label: catalog("noExpected") },
+                ...(["allow", "block", "review"] as Decision[]).map((item) => ({ value: item, label: enums(`decision.${item}`) })),
+              ]}
+            />
+          </Field>
           <Field label={t("textInput")} hint={t("textHint", { max: moderationLimits.textMaxChars })}>
             <Textarea
               value={text}
@@ -248,16 +262,34 @@ function TextLab() {
         request={request}
         empty={t("emptyResult")}
       />
+      {result ? (
+        <div className="lg:col-span-2">
+          <TestReport
+            source="playground-text"
+            sceneId={sceneId}
+            cases={[{
+              input: text,
+              expected,
+              decision: result.decision ?? "",
+              status: result.status,
+              capabilityIds: ["cap_text_small"],
+            }]}
+          />
+        </div>
+      ) : null}
     </div>
   );
 }
 
 function ImageLab() {
   const t = useTranslations("Play");
+  const catalog = useTranslations("Catalog");
+  const enums = useTranslations("Enums");
   const format = useFormatters();
   const inputRef = useRef<HTMLInputElement>(null);
   const [sample, setSample] = useState<ImageSampleId>("safe");
   const [sceneId, setSceneId] = useState("default");
+  const [expected, setExpected] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [fileError, setFileError] = useState("");
@@ -424,12 +456,38 @@ function ImageLab() {
               timeout: format.number(moderationLimits.requestTimeoutMs),
             })}
           </p>
+          <Field label={catalog("expected")}>
+            <SimpleSelect
+              value={expected || "unset"}
+              onChange={(value) => setExpected(value === "unset" ? "" : value)}
+              options={[
+                { value: "unset", label: catalog("noExpected") },
+                ...(["allow", "block", "review"] as Decision[]).map((item) => ({ value: item, label: enums(`decision.${item}`) })),
+              ]}
+            />
+          </Field>
           <Button onClick={run} disabled={loading}>
             {loading ? t("running") : t("run")}
           </Button>
         </div>
       </section>
       <ResultPanel loading={loading} result={result} request={request} empty={t("emptyResult")} />
+      {result ? (
+        <div className="lg:col-span-2">
+          <TestReport
+            source="playground-image"
+            sceneId={sceneId}
+            inputType="image"
+            cases={[{
+              input: file?.name || sample,
+              expected,
+              decision: result.decision ?? "",
+              status: result.status,
+              capabilityIds: ["cap_image_small"],
+            }]}
+          />
+        </div>
+      ) : null}
     </div>
   );
 }

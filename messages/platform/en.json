@@ -268,8 +268,8 @@
   "Contact": {
     "eyebrow": "Contact",
     "title": "Talk with sales",
-    "description": "Tell us about the team and the workflow you want to moderate. This form stays in the browser.",
-    "demoNotice": "Submitting this form does not email a sales team. It only checks the fields and shows a demo confirmation.",
+    "description": "Tell us about the team and the workflow you want to moderate. Submissions are stored on this server.",
+    "demoNotice": "Submitting writes a customer-form record on this server. It does not send email.",
     "company": "Company",
     "name": "Contact name",
     "email": "Work email",
@@ -279,8 +279,10 @@
     "emailError": "Enter a valid email address.",
     "needError": "Describe the request in at least a short sentence.",
     "submit": "Submit demo request",
-    "successTitle": "Demo request saved in this browser only",
-    "successBody": "Nothing was sent to a sales team or stored on a server."
+    "submitting": "Submitting…",
+    "saveError": "The request was not saved. Try again.",
+    "successTitle": "Saved",
+    "successBody": "This request is stored on the server. No email was sent."
   },
   "Legal": {
     "eyebrow": "Legal placeholder",
@@ -651,7 +653,7 @@
     "internal": "Internal",
     "accessNotice": "This console is a prototype. A signed-in tenant filter runs in the browser and is not server isolation or authorization.",
     "overviewTitle": "Overview",
-    "overviewBody": "Rules, workflows, capabilities, evaluations, and releases are separate records. Counts come from the local prototype store.",
+    "overviewBody": "Rules, workflows, capabilities, evaluations, and releases are separate records. Counts come from the prototype store on this server and stay in sync with this browser.",
     "rulesBoundaryTitle": "Rules",
     "rulesBoundaryBody": "Rules define a match and a recommended action. Editing a published rule creates a candidate version.",
     "workflowBoundaryTitle": "Workflows",
@@ -679,7 +681,8 @@
       "llmLab": "Model lab",
       "intercept": "Case test",
       "query": "Log query",
-      "samples": "Sample library"
+      "samples": "Sample library",
+      "inquiries": "Customer forms"
     },
     "groups": {
       "desk": "Desk",
@@ -693,7 +696,15 @@
     "queueAction": "Send to human review",
     "openQueue": "Open the log",
     "signalTitle": "Simulated label volume this month",
-    "simulated": "Simulated"
+    "simulated": "Simulated",
+    "inquiriesTitle": "Customer forms",
+    "inquiriesBody": "Sales contact and access requests from the public site are stored on this server and stay visible here after a refresh.",
+    "inquiriesEmpty": "No submissions yet.",
+    "inquiriesError": "The records could not be read.",
+    "inquiriesWhen": "Time",
+    "inquiriesKind": "Source",
+    "kindContact": "Talk with sales",
+    "kindLead": "Access request"
   },
   "Enums": {
     "decision": {
@@ -1402,7 +1413,7 @@
     "payloadHint": "Terms, a pattern, or a short condition. One library stays inside its rule type.",
     "imported": "Imported",
     "knowledgeTitle": "Knowledge, prompts, and RAG",
-    "knowledgeBody": "Keep knowledge notes, prompts, and retrieval snippets in this browser. Detection still runs locally.",
+    "knowledgeBody": "Knowledge notes, prompts, and retrieval snippets are stored on this server and stay in sync with this browser. Detection still runs locally.",
     "localNotice": "Nothing on this page is sent to an external address. Results stay simulated in this browser.",
     "documents": "Knowledge",
     "docTitle": "Title",
@@ -1470,7 +1481,7 @@
       "audio": "Audio"
     },
     "rulesModule": "Rules",
-    "rulesModuleBody": "New rules and rule libraries are two parts of this module. Both stay in this browser.",
+    "rulesModuleBody": "New rules and rule libraries are two parts of this module. Both are stored on this server and stay in sync with this browser.",
     "rulesSection": "Rules",
     "labelFilter": "Filter by label",
     "varSearch": "Search by variable key or name",
@@ -1492,14 +1503,40 @@
     "blackLimit": "Black sample count",
     "whiteLimit": "White sample count",
     "samplesTitle": "Sample library",
-    "samplesBody": "Upload and download samples, and attach labels, resources, an application, and a channel. Imports stay in this browser.",
+    "samplesBody": "Upload and download samples, and attach labels, resources, an application, and a channel. Records are stored on this server and stay in sync with this browser.",
     "sampleSearch": "Search sample text",
     "sampleForm": "Sample",
     "resource": "Resource",
     "application": "Application",
     "channel": "Channel",
     "selectedFields": "{count} selected",
-    "auditFieldHint": "These fields are the ones stored on each audit record. Check the ones to show and filter.",
+    "auditFieldHint": "Content uses contains for a fuzzy search. MD5 and capabilities match the stored record. Checked fields are the ones shown and filtered.",
+    "testReason": "This result came from a browser test, not a live call.",
+    "noExpected": "No expected decision",
+    "outcomeTitle": "False positives and misses",
+    "outcomeHint": "Expected reject that was passed counts as a miss. Expected pass that was rejected counts as a false positive.",
+    "viewAudit": "Open audit log",
+    "metricsTitle": "Metric settings",
+    "metricsShared": "The same settings appear on every test page",
+    "metricName": "Metric name",
+    "formula": "Formula",
+    "addMetric": "Add metric",
+    "formulaError": "Invalid formula",
+    "metricVars": "Variables: correct, total, falsePositive, falseNegative, expectedPass, expectedReject, expectedReview, error. Division by zero is invalid.",
+    "metric": {
+      "accuracy": "Accuracy",
+      "falsePositiveRate": "False positive rate",
+      "falseNegativeRate": "Miss rate",
+      "total": "Scored rows"
+    },
+    "outcome": {
+      "correct": "Correct",
+      "falsePositive": "False positive",
+      "falseNegative": "Miss",
+      "reviewGap": "Review gap",
+      "error": "Error",
+      "unlabeled": "No expectation"
+    },
     "polarity": {
       "all": "All",
       "black": "Black",
@@ -1517,11 +1554,15 @@
       "inputType": "Input type",
       "riskLabels": "Risk labels",
       "latencyMs": "Latency",
-      "id": "Record id"
+      "id": "Record id",
+      "content": "Content",
+      "contentMd5": "Content MD5",
+      "capabilities": "Capabilities"
     },
     "fieldGroup": {
       "record": "Record",
       "scope": "Scope",
+      "detect": "Detection",
       "hit": "Hits",
       "extra": "Other fields"
     }

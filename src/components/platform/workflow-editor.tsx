@@ -25,6 +25,7 @@ import {
   StatusBadge,
   useToast,
 } from "@/components/platform/ui";
+import { TestReport } from "@/components/platform/test-report";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -219,6 +220,7 @@ function defaultData(type: WorkflowNodeType): FlowData {
 
 export function WorkflowEditor() {
   const t = useTranslations("Workflows");
+  const catalog = useTranslations("Catalog");
   const enums = useTranslations("Enums");
   const site = useTranslations("Site");
   const store = usePrototypeStore();
@@ -232,6 +234,7 @@ export function WorkflowEditor() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [issues, setIssues] = useState<WorkflowIssue[]>([]);
   const [sample, setSample] = useState<SimInput>("rule_hit");
+  const [expected, setExpected] = useState("");
   const [running, setRunning] = useState(false);
   const [result, setResult] = useState<SimResult | null>(null);
   const [loadedKey, setLoadedKey] = useState("");
@@ -495,6 +498,16 @@ export function WorkflowEditor() {
             }))}
           />
         </Field>
+        <Field label={catalog("expected")}>
+          <SimpleSelect
+            value={expected || "unset"}
+            onChange={(value) => setExpected(value === "unset" ? "" : value)}
+            options={[
+              { value: "unset", label: catalog("noExpected") },
+              ...["allow", "block", "review"].map((item) => ({ value: item, label: enums(`decision.${item}`) })),
+            ]}
+          />
+        </Field>
         <Button onClick={run} disabled={running}>
           {running ? t("running") : t("run")}
         </Button>
@@ -524,7 +537,7 @@ export function WorkflowEditor() {
       {result ? (
         <div className="rounded-xl border border-slate-200 bg-white p-4">
           <div className="flex flex-wrap items-center gap-2">
-            <p className="text-sm font-medium">{t("resultTitle")}</p>
+            <h2 className="text-lg font-semibold tracking-tight text-zinc-900">{t("resultTitle")}</h2>
             {result.finalStatus === "error" || result.decision === null ? (
               <ErrorBlock title={t("resultError")} description={t(`reasons.${result.reason}`)} />
             ) : (
@@ -546,6 +559,18 @@ export function WorkflowEditor() {
             ))}
           </ol>
         </div>
+      ) : null}
+      {result && !running ? (
+        <TestReport
+          source={`workflow-${workflowId}`}
+          cases={[{
+            input: t(`samples.${sample}`),
+            expected,
+            decision: result.decision ?? "",
+            status: result.finalStatus === "error" || result.decision == null ? "error" : "success",
+            capabilityIds: graph.nodes.flatMap((node) => (node.capabilityId ? [node.capabilityId] : [])),
+          }]}
+        />
       ) : null}
     </div>
   );

@@ -268,8 +268,8 @@
   "Contact": {
     "eyebrow": "联系",
     "title": "联系销售",
-    "description": "介绍一下团队和希望审核的业务流程。此表单只留在浏览器中。",
-    "demoNotice": "提交此表单不会给销售团队发邮件。它只校验字段并显示演示确认。",
+    "description": "介绍一下团队和希望审核的业务流程。提交后会写到这台服务器。",
+    "demoNotice": "提交后写入服务器上的客户表单记录，不会发邮件。",
     "company": "公司",
     "name": "联系人",
     "email": "工作邮箱",
@@ -279,8 +279,10 @@
     "emailError": "请填写有效的邮箱地址。",
     "needError": "请用至少一句话描述需求。",
     "submit": "提交演示请求",
-    "successTitle": "演示请求只保存在此浏览器中",
-    "successBody": "没有发送给销售团队，也没有存到服务器。"
+    "submitting": "提交中…",
+    "saveError": "没有保存成功，请再试一次。",
+    "successTitle": "已保存",
+    "successBody": "这条申请已写入服务器。没有发送邮件。"
   },
   "Legal": {
     "eyebrow": "法律占位",
@@ -651,7 +653,7 @@
     "internal": "内部",
     "accessNotice": "此后台是原型。登录后的租户范围只在浏览器里过滤，不是服务端隔离，也不是服务端授权。",
     "overviewTitle": "概览",
-    "overviewBody": "规则、工作流、能力、评估和发布是分开的记录。数字来自本机原型存储。",
+    "overviewBody": "规则、工作流、能力、评估和发布是分开的记录。数字来自这台服务器上的原型存储，并和当前浏览器同步。",
     "rulesBoundaryTitle": "规则",
     "rulesBoundaryBody": "规则定义匹配条件和处置建议。编辑已发布规则会生成候选版本。",
     "workflowBoundaryTitle": "工作流",
@@ -679,7 +681,8 @@
       "llmLab": "大模型实验室",
       "intercept": "资源测试",
       "query": "日志查询",
-      "samples": "样本库"
+      "samples": "样本库",
+      "inquiries": "客户表单"
     },
     "groups": {
       "desk": "工作台",
@@ -693,7 +696,15 @@
     "queueAction": "转人工复核",
     "openQueue": "打开记录",
     "signalTitle": "本月标签命中（模拟）",
-    "simulated": "模拟"
+    "simulated": "模拟",
+    "inquiriesTitle": "客户表单",
+    "inquiriesBody": "官网的联系销售和访问申请会写到这台服务器。刷新后仍可在这里查看。",
+    "inquiriesEmpty": "还没有提交。",
+    "inquiriesError": "暂时读不到记录。",
+    "inquiriesWhen": "时间",
+    "inquiriesKind": "来源",
+    "kindContact": "联系销售",
+    "kindLead": "访问申请"
   },
   "Enums": {
     "decision": {
@@ -1402,7 +1413,7 @@
     "payloadHint": "词、正则或一段条件。每个库只属于一种规则类型。",
     "imported": "已导入",
     "knowledgeTitle": "知识库、Prompt 与 RAG",
-    "knowledgeBody": "在这个浏览器里维护知识笔记、提示词和检索片段。检测仍在本地完成。",
+    "knowledgeBody": "知识笔记、提示词和检索片段写到这台服务器，并和当前浏览器同步。检测仍在本地完成。",
     "localNotice": "这一页的内容不会发到外部地址。结果只在这个浏览器里模拟。",
     "documents": "知识库",
     "docTitle": "标题",
@@ -1470,7 +1481,7 @@
       "audio": "音频"
     },
     "rulesModule": "规则",
-    "rulesModuleBody": "新增规则和规则库是这个模块下的两个部分，数据保存在当前浏览器。",
+    "rulesModuleBody": "新增规则和规则库是这个模块下的两个部分。数据写到这台服务器，并和当前浏览器同步。",
     "rulesSection": "规则",
     "labelFilter": "按标签筛选",
     "varSearch": "按变量名或名称搜索",
@@ -1492,14 +1503,40 @@
     "blackLimit": "黑样本数量",
     "whiteLimit": "白样本数量",
     "samplesTitle": "样本库",
-    "samplesBody": "样本可以上传、下载，并关联标签、资源、应用和渠道。数据保存在当前浏览器。",
+    "samplesBody": "样本可以上传、下载，并关联标签、资源、应用和渠道。数据写到这台服务器，并和当前浏览器同步。",
     "sampleSearch": "搜索样本内容",
     "sampleForm": "样本",
     "resource": "资源",
     "application": "应用",
     "channel": "渠道",
     "selectedFields": "已选 {count}",
-    "auditFieldHint": "这些字段和审核记录本身保存的内容一致。勾选后才会展示和筛选。",
+    "auditFieldHint": "检测内容用「包含」做模糊搜索。数据 MD5 和检测能力项与记录里保存的一致。勾选后才会展示和筛选。",
+    "testReason": "这次结果来自浏览器里的测试，不是线上调用。",
+    "noExpected": "不设预期",
+    "outcomeTitle": "误伤与漏放",
+    "outcomeHint": "预期拒绝却通过，记为漏放。预期通过却被拒绝，记为误伤。",
+    "viewAudit": "查看审核记录",
+    "metricsTitle": "指标配置",
+    "metricsShared": "同一套配置会出现在所有测试页",
+    "metricName": "指标名称",
+    "formula": "计算公式",
+    "addMetric": "添加指标",
+    "formulaError": "公式无效",
+    "metricVars": "可用变量：correct、total、falsePositive、falseNegative、expectedPass、expectedReject、expectedReview、error。除以零时显示无效。",
+    "metric": {
+      "accuracy": "准确率",
+      "falsePositiveRate": "误伤率",
+      "falseNegativeRate": "漏放率",
+      "total": "计入样本"
+    },
+    "outcome": {
+      "correct": "正确",
+      "falsePositive": "误伤",
+      "falseNegative": "漏放",
+      "reviewGap": "复核差异",
+      "error": "异常",
+      "unlabeled": "未标预期"
+    },
     "polarity": {
       "all": "全部",
       "black": "黑样本",
@@ -1517,11 +1554,15 @@
       "inputType": "输入类型",
       "riskLabels": "风险标签",
       "latencyMs": "耗时",
-      "id": "记录编号"
+      "id": "记录编号",
+      "content": "检测内容",
+      "contentMd5": "数据 MD5",
+      "capabilities": "检测能力项"
     },
     "fieldGroup": {
       "record": "记录",
       "scope": "范围",
+      "detect": "检测",
       "hit": "命中",
       "extra": "其他字段"
     }

@@ -7,11 +7,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { CaseSheetBar, RecordBrowser, TemplateButton } from "@/components/platform/case-batch";
+import { TestReport } from "@/components/platform/test-report";
 import { downloadCsv } from "@/lib/platform/csv";
 import { createId } from "@/lib/platform/hash";
 import { interceptText } from "@/lib/platform/intercept";
 import { runSelect, type QueryTable } from "@/lib/platform/log-query";
-import { auditRecords, scenes } from "@/lib/platform/seed";
+import { scenes } from "@/lib/platform/seed";
 import { OperatorGate, useSession } from "@/lib/platform/session";
 import { usePrototypeStore } from "@/lib/platform/store";
 import type {
@@ -977,8 +978,18 @@ export function LlmLabView() {
           ))}
         </ul>
         {results.length > 0 ? (
-          <section className="space-y-3 rounded-xl border border-slate-200 bg-white p-4">
+          <section className="space-y-3">
             <h2 className="text-lg font-semibold tracking-tight text-zinc-900">{t("runExamples")}</h2>
+            <TestReport
+              source="llm-lab"
+              cases={results.map((row) => ({
+                input: row.input,
+                expected: row.expected,
+                decision: row.decision,
+                status: row.status,
+                capabilityIds: [row.model],
+              }))}
+            />
             <RecordBrowser rows={results} downloadName="llm-lab-results.csv" defaultFields={["input", "decision", "status"]} />
           </section>
         ) : null}
@@ -994,8 +1005,10 @@ export function InterceptView() {
   const { session } = useSession();
   const [tenantId, setTenantId] = useState(session?.role === "customer" ? session.tenantId : "ten_demo");
   const [single, setSingle] = useState("");
+  const [singleExpected, setSingleExpected] = useState("");
   const [batch, setBatch] = useState("");
-  const [rows, setRows] = useState<Array<{ text: string; status: string; decision: string; hits: string }>>([]);
+  const [batchExpected, setBatchExpected] = useState("");
+  const [rows, setRows] = useState<Array<{ input: string; expected: string; status: string; decision: string; capabilityIds: string[]; ruleHits: Array<{ ruleId: string; version: number; action: Decision }> }>>([]);
   const locked = session?.role === "customer";
   const activeTenant = locked ? session.tenantId : tenantId;
 
@@ -1006,15 +1019,28 @@ export function InterceptView() {
       .filter((item) => item.tenantId === activeTenant && item.status !== "archived");
   }
 
-  function run(lines: string[]) {
+  function capabilityIds(versions: ReturnType<typeof versionsForTenant>) {
+    const ids = new Set<string>();
+    for (const version of versions) {
+      if (version.type === "keyword" || version.type === "ignore_term") ids.add("cap_politics_keywords");
+      else if (version.type === "model_threshold") ids.add("cap_text_small");
+      else ids.add("cap_text_small");
+    }
+    return [...ids];
+  }
+
+  function run(lines: Array<{ input: string; expected: string }>) {
     const versions = versionsForTenant();
-    setRows(lines.filter((line) => line.trim()).slice(0, 50).map((text) => {
-      const result = interceptText(text, versions);
+    const caps = capabilityIds(versions);
+    setRows(lines.filter((line) => line.input.trim()).slice(0, 50).map((line) => {
+      const result = interceptText(line.input, versions);
       return {
-        text,
+        input: line.input,
+        expected: line.expected,
         status: result.status,
         decision: result.decision ?? "",
-        hits: result.hits.map((hit) => hit.name).join(", "),
+        capabilityIds: caps,
+        ruleHits: result.hits.map((hit) => ({ ruleId: hit.ruleId, version: 1, action: hit.action })),
       };
     }));
   }
@@ -1038,35 +1064,46 @@ export function InterceptView() {
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="space-y-3 rounded-xl border border-slate-200 bg-white p-4">
           <Field label={t("single")}><Textarea value={single} onChange={(event) => setSingle(event.target.value)} /></Field>
-          <Button onClick={() => run([single])}>{t("runSingle")}</Button>
+          <Field label={t("expected")}>
+            <SimpleSelect
+              value={singleExpected || "unset"}
+              onChange={(value) => setSingleExpected(value === "unset" ? "" : value)}
+              options={[
+                { value: "unset", label: t("noExpected") },
+                ...["allow", "block", "review"].map((item) => ({ value: item, label: enums(`decision.${item}`) })),
+              ]}
+            />
+          </Field>
+          <Button onClick={() => run([{ input: single, expected: singleExpected }])}>{t("runSingle")}</Button>
         </div>
         <div className="space-y-3 rounded-xl border border-slate-200 bg-white p-4">
           <Field label={t("batch")} hint={t("batchHint")}><Textarea value={batch} onChange={(event) => setBatch(event.target.value)} /></Field>
-          <Button onClick={() => run(batch.split(/\r?\n/))}>{t("runBatch")}</Button>
+          <Field label={t("expected")}>
+            <SimpleSelect
+              value={batchExpected || "unset"}
+              onChange={(value) => setBatchExpected(value === "unset" ? "" : value)}
+              options={[
+                { value: "unset", label: t("noExpected") },
+                ...["allow", "block", "review"].map((item) => ({ value: item, label: enums(`decision.${item}`) })),
+              ]}
+            />
+          </Field>
+          <Button onClick={() => run(batch.split(/\r?\n/).map((input) => ({ input, expected: batchExpected })))}>{t("runBatch")}</Button>
           <CaseSheetBar
-            onLoad={(rows) => {
-              setBatch(rows.map((row) => row.input).join("\n"));
-              run(rows.map((row) => row.input));
+            onLoad={(loaded) => {
+              setBatch(loaded.map((row) => row.input).join("\n"));
+              run(loaded.map((row) => ({ input: row.input, expected: row.expected })));
             }}
           />
         </div>
       </div>
       {rows.length > 0 ? (
-        <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
-          <table className="w-full min-w-[640px] text-left text-sm">
-            <thead className="bg-slate-50"><tr><th className="px-3 py-2">{t("caseInput")}</th><th className="px-3 py-2">{t("status")}</th><th className="px-3 py-2">{enums("decision.allow") && t("decision")}</th><th className="px-3 py-2">{t("hits")}</th></tr></thead>
-            <tbody>
-              {rows.map((row) => (
-                <tr key={row.text} className="border-t border-slate-100">
-                  <td className="px-3 py-2">{row.text}</td>
-                  <td className="px-3 py-2">{row.status}</td>
-                  <td className="px-3 py-2">{row.decision ? enums(`decision.${row.decision}`) : ""}</td>
-                  <td className="px-3 py-2">{row.hits}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <TestReport
+          source={`intercept-${activeTenant}`}
+          applicationId={store.state.applications.find((item) => item.tenantId === activeTenant)?.id ?? "app_community"}
+          channelId={store.state.channels.find((item) => item.applicationId === (store.state.applications.find((app) => app.tenantId === activeTenant)?.id ?? ""))?.id ?? "ch_posts"}
+          cases={rows}
+        />
       ) : null}
     </div>
   );
@@ -1087,7 +1124,7 @@ export function QueryView() {
   function tables() {
     const apps = store.state.applications;
     const tenantId = session?.role === "customer" ? session.tenantId : null;
-    const logs: QueryTable[] = auditRecords
+    const logs: QueryTable[] = store.state.auditRecords
       .filter((record) => {
         if (!tenantId) return true;
         const app = apps.find((item) => item.id === record.applicationId);
@@ -1104,6 +1141,9 @@ export function QueryView() {
         latency_ms: String(record.latencyMs),
         created_at: record.createdAt,
         risk_labels: record.riskLabels.join("|"),
+        content: record.content,
+        content_md5: record.contentMd5,
+        capabilities: record.modelCalls.map((call) => call.capabilityId).join("|"),
       }));
     const history: QueryTable[] = store.state.releases
       .filter((record) => {
@@ -1189,7 +1229,7 @@ export function QueryView() {
       {columns.length > 0 ? (
         <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
           <table className="w-full min-w-[640px] text-left text-sm">
-            <thead className="bg-slate-50"><tr>{columns.map((column) => <th key={column} className="px-3 py-2">{column}</th>)}</tr></thead>
+            <thead className="bg-slate-50 text-xs text-slate-500"><tr>{columns.map((column) => <th key={column} className="px-3 py-2 font-medium">{column}</th>)}</tr></thead>
             <tbody>
               {rows.map((row, index) => (
                 <tr key={index} className="border-t border-slate-100">

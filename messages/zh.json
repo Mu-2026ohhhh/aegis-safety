@@ -101,6 +101,7 @@
     "intentWhitepaper": "EU AI Act 合规白皮书",
     "intentDemo": "预约演示",
     "intentAnalytics": "海量数据分析权限",
+    "intentSandbox": "试用解锁",
     "submit": "提交申请",
     "submitting": "提交中…",
     "successTitle": "已收到申请",
@@ -108,7 +109,8 @@
     "close": "关闭",
     "namePlaceholder": "张明",
     "emailPlaceholder": "ming@company.com",
-    "companyPlaceholder": "出海科技"
+    "companyPlaceholder": "出海科技",
+    "error": "没有保存成功，请再试一次。"
   },
   "Pricing": {
     "eyebrow": "定价",

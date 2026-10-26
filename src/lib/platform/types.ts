@@ -1,3 +1,5 @@
+import type { MetricDefinition } from "@/lib/platform/metrics";
+
 export type Decision = "allow" | "block" | "review";
 
 export type RuleType =
@@ -269,6 +271,8 @@ export type AuditRecord = {
   channelId: string;
   sceneId: string;
   inputType: "text" | "image";
+  content: string;
+  contentMd5: string;
   decision: Decision | null;
   riskLabels: string[];
   status: "success" | "error";
@@ -467,6 +471,8 @@ export type PrototypeState = {
   llmCases: LlmCase[];
   savedQueries: SavedQuery[];
   samples: SampleRecord[];
+  auditRecords: AuditRecord[];
+  metrics: MetricDefinition[];
   tenants: TenantRecord[];
   applications: ApplicationRecord[];
   channels: ChannelRecord[];

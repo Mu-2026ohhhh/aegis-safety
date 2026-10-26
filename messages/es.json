@@ -101,6 +101,7 @@
     "intentWhitepaper": "Whitepaper EU AI Act",
     "intentDemo": "Reservar demo",
     "intentAnalytics": "Acceso a analítica de alto volumen",
+    "intentSandbox": "Desbloqueo de prueba",
     "submit": "Enviar solicitud",
     "submitting": "Enviando…",
     "successTitle": "Solicitud recibida",
@@ -108,7 +109,8 @@
     "close": "Cerrar",
     "namePlaceholder": "Alex Morgan",
     "emailPlaceholder": "alex@empresa.com",
-    "companyPlaceholder": "Acme Platforms"
+    "companyPlaceholder": "Acme Platforms",
+    "error": "No se guardó la solicitud. Inténtelo de nuevo."
   },
   "Pricing": {
     "eyebrow": "Precios",

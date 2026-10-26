@@ -5,7 +5,8 @@ import { useTranslations } from "next-intl";
 import { OperatorGate, useSession } from "@/lib/platform/session";
 import { downloadCsv, hitSeries } from "@/lib/platform/csv";
 import { CaseSheetBar } from "@/components/platform/case-batch";
-import { auditRecords, applications as seedApps, scenes } from "@/lib/platform/seed";
+import { TestReport } from "@/components/platform/test-report";
+import { applications as seedApps, scenes } from "@/lib/platform/seed";
 import { defaultConfig } from "@/lib/platform/rules";
 import { usePrototypeStore } from "@/lib/platform/store";
 import type { ContentLabel, Decision, RuleTemplate } from "@/lib/platform/types";
@@ -339,6 +340,8 @@ export function LabelsView() {
 
 export function TuningView() {
   const t = useTranslations("Ops");
+  const catalog = useTranslations("Catalog");
+  const enums = useTranslations("Enums");
   const store = usePrototypeStore();
   const { notify } = useToast();
   const profile = store.state.llm;
@@ -346,7 +349,9 @@ export function TuningView() {
   const [prompt, setPrompt] = useState(profile.prompt);
   const [rag, setRag] = useState(profile.ragNotes.join("\n"));
   const [sample, setSample] = useState("Thanks for the update.");
+  const [expected, setExpected] = useState("");
   const [debug, setDebug] = useState("");
+  const [debugDecision, setDebugDecision] = useState("");
   const [sheet, setSheet] = useState<Array<{ input: string; expected: string; decision: string }>>([]);
 
   function save() {
@@ -366,6 +371,7 @@ export function TuningView() {
       : text.includes("demo_review_token")
         ? "review"
         : "allow";
+    setDebugDecision(decision);
     setDebug(
       JSON.stringify(
         {
@@ -405,6 +411,16 @@ export function TuningView() {
             <Field label={t("debugInput")}>
               <Textarea value={sample} onChange={(event) => setSample(event.target.value)} />
             </Field>
+            <Field label={catalog("expected")}>
+              <SimpleSelect
+                value={expected || "unset"}
+                onChange={(value) => setExpected(value === "unset" ? "" : value)}
+                options={[
+                  { value: "unset", label: catalog("noExpected") },
+                  ...["allow", "block", "review"].map((item) => ({ value: item, label: enums(`decision.${item}`) })),
+                ]}
+              />
+            </Field>
             <Button variant="outline" onClick={runDebug}>
               {t("runDebug")}
             </Button>
@@ -423,33 +439,26 @@ export function TuningView() {
                 );
               }}
             />
-            {sheet.length > 0 ? (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm">
-                  <thead className="text-xs text-slate-500">
-                    <tr>
-                      <th className="px-2 py-1">{t("debugInput")}</th>
-                      <th className="px-2 py-1">{t("expected")}</th>
-                      <th className="px-2 py-1">{t("decision")}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {sheet.map((row) => (
-                      <tr key={row.input} className="border-t border-slate-100">
-                        <td className="px-2 py-1">{row.input}</td>
-                        <td className="px-2 py-1">{row.expected}</td>
-                        <td className="px-2 py-1">{row.decision}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ) : null}
             {debug ? (
-              <pre className="overflow-x-auto rounded-lg bg-slate-950 p-3 text-xs text-slate-100">{debug}</pre>
+              <TestReport
+                source="tuning-debug"
+                cases={[{
+                  input: sample,
+                  expected,
+                  decision: debugDecision,
+                  status: "success",
+                  capabilityIds: ["cap_text_llm"],
+                }]}
+              />
             ) : (
               <p className="text-sm text-slate-500">{t("debugEmpty")}</p>
             )}
+            {sheet.length > 0 ? (
+              <TestReport
+                source="tuning-sheet"
+                cases={sheet.map((row) => ({ ...row, status: "success", capabilityIds: ["cap_text_llm"] }))}
+              />
+            ) : null}
           </div>
         </div>
       </div>
@@ -469,10 +478,10 @@ export function InsightsView() {
   const max = Math.max(...points.map((item) => item.count), 1);
   const history = useMemo(
     () =>
-      auditRecords.filter(
+      store.state.auditRecords.filter(
         (record) => tenantOf(record.applicationId, store.state.applications) === activeTenant
       ),
-    [activeTenant, store.state.applications]
+    [activeTenant, store.state.applications, store.state.auditRecords]
   );
 
   return (
@@ -490,7 +499,7 @@ export function InsightsView() {
         </Field>
       )}
       <div className="rounded-xl border border-slate-200 bg-white p-4">
-        <h2 className="text-base font-semibold tracking-tight text-zinc-900">{t("trendTitle")}</h2>
+        <h2 className="text-lg font-semibold tracking-tight text-zinc-900">{t("trendTitle")}</h2>
         <div className="mt-4 space-y-3">
           {points.map((item) => (
             <div key={`${item.label}-${item.month}`} className="grid grid-cols-[8rem_1fr_3rem] items-center gap-3 text-sm">

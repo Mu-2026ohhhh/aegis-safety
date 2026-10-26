@@ -13,6 +13,7 @@ const items = [
   { href: "/console", key: "overview", group: "desk", operator: false },
   { href: "/console/insights", key: "insights", group: "desk", operator: false },
   { href: "/console/audit-logs", key: "audit", group: "desk", operator: false },
+  { href: "/console/inquiries", key: "inquiries", group: "desk", operator: true },
   { href: "/console/query", key: "query", group: "desk", operator: false },
   { href: "/console/rules", key: "rules", group: "policy", operator: false },
   { href: "/console/templates", key: "templates", group: "policy", operator: true },

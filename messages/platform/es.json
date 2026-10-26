@@ -268,8 +268,8 @@
   "Contact": {
     "eyebrow": "Contacto",
     "title": "Hablar con ventas",
-    "description": "Cuéntenos sobre el equipo y el flujo que desea moderar. El formulario permanece en el navegador.",
-    "demoNotice": "Enviar este formulario no escribe a ventas. Solo valida los campos y muestra una confirmación de demostración.",
+    "description": "Cuéntenos sobre el equipo y el flujo que desea moderar. El envío se guarda en este servidor.",
+    "demoNotice": "Enviar escribe un registro del formulario en este servidor. No envía correo.",
     "company": "Empresa",
     "name": "Nombre de contacto",
     "email": "Correo de trabajo",
@@ -279,8 +279,10 @@
     "emailError": "Introduzca un correo válido.",
     "needError": "Describa la necesidad en al menos una frase breve.",
     "submit": "Enviar solicitud de demostración",
-    "successTitle": "La solicitud de demostración solo se guardó en este navegador",
-    "successBody": "No se envió a ventas ni se almacenó en un servidor."
+    "submitting": "Enviando…",
+    "saveError": "No se guardó la solicitud. Inténtelo de nuevo.",
+    "successTitle": "Guardada",
+    "successBody": "La solicitud quedó en el servidor. No se envió correo."
   },
   "Legal": {
     "eyebrow": "Texto legal provisional",
@@ -651,7 +653,7 @@
     "internal": "Interno",
     "accessNotice": "Esta consola es un prototipo. El filtro del inquilino se ejecuta en el navegador y no es aislamiento ni autorización de servidor.",
     "overviewTitle": "Descripción general",
-    "overviewBody": "Reglas, flujos, capacidades, evaluaciones y publicaciones son registros separados. Los recuentos salen del almacén local del prototipo.",
+    "overviewBody": "Reglas, flujos, capacidades, evaluaciones y publicaciones son registros separados. Los recuentos salen del almacén del prototipo en este servidor y se sincronizan con este navegador.",
     "rulesBoundaryTitle": "Reglas",
     "rulesBoundaryBody": "Las reglas definen una coincidencia y una acción recomendada. Editar una regla publicada crea una versión candidata.",
     "workflowBoundaryTitle": "Flujos",
@@ -679,7 +681,8 @@
       "llmLab": "Laboratorio",
       "intercept": "Prueba de casos",
       "query": "Consulta",
-      "samples": "Biblioteca de muestras"
+      "samples": "Biblioteca de muestras",
+      "inquiries": "Formularios"
     },
     "groups": {
       "desk": "Mesa",
@@ -693,7 +696,15 @@
     "queueAction": "Enviar a revisión humana",
     "openQueue": "Abrir el registro",
     "signalTitle": "Volumen simulado de etiquetas este mes",
-    "simulated": "Simulado"
+    "simulated": "Simulado",
+    "inquiriesTitle": "Formularios de clientes",
+    "inquiriesBody": "El contacto de ventas y las solicitudes de acceso del sitio público se guardan en este servidor y siguen visibles aquí después de actualizar.",
+    "inquiriesEmpty": "Todavía no hay envíos.",
+    "inquiriesError": "No se pudieron leer los registros.",
+    "inquiriesWhen": "Hora",
+    "inquiriesKind": "Origen",
+    "kindContact": "Hablar con ventas",
+    "kindLead": "Solicitud de acceso"
   },
   "Enums": {
     "decision": {
@@ -1402,7 +1413,7 @@
     "payloadHint": "Términos, un patrón o una condición breve. Cada biblioteca permanece en su tipo.",
     "imported": "Importado",
     "knowledgeTitle": "Conocimiento, prompts y RAG",
-    "knowledgeBody": "Guarde notas, prompts y fragmentos de recuperación en este navegador. La detección sigue siendo local.",
+    "knowledgeBody": "Las notas, los prompts y los fragmentos de recuperación se guardan en este servidor y se sincronizan con este navegador. La detección sigue siendo local.",
     "localNotice": "Nada de esta página se envía a una dirección externa. Los resultados se simulan en este navegador.",
     "documents": "Conocimiento",
     "docTitle": "Título",
@@ -1470,7 +1481,7 @@
       "audio": "Audio"
     },
     "rulesModule": "Reglas",
-    "rulesModuleBody": "Las reglas nuevas y las bibliotecas son dos partes de este módulo. Ambas quedan en este navegador.",
+    "rulesModuleBody": "Las reglas nuevas y las bibliotecas son dos partes de este módulo. Ambas se guardan en este servidor y se sincronizan con este navegador.",
     "rulesSection": "Reglas",
     "labelFilter": "Filtrar por etiqueta",
     "varSearch": "Buscar por clave o nombre",
@@ -1492,14 +1503,40 @@
     "blackLimit": "Cantidad de muestras negras",
     "whiteLimit": "Cantidad de muestras blancas",
     "samplesTitle": "Biblioteca de muestras",
-    "samplesBody": "Suba y descargue muestras, y asócielas a etiquetas, recursos, una aplicación y un canal. La importación queda en este navegador.",
+    "samplesBody": "Suba y descargue muestras, y asócielas a etiquetas, recursos, una aplicación y un canal. Los registros se guardan en este servidor y se sincronizan con este navegador.",
     "sampleSearch": "Buscar texto de la muestra",
     "sampleForm": "Muestra",
     "resource": "Recurso",
     "application": "Aplicación",
     "channel": "Canal",
     "selectedFields": "{count} seleccionados",
-    "auditFieldHint": "Estos campos son los que guarda cada registro de auditoría. Marque los que quiere ver y filtrar.",
+    "auditFieldHint": "El contenido usa «contiene» para una búsqueda aproximada. El MD5 y las capacidades coinciden con el registro. Solo se muestran los campos marcados.",
+    "testReason": "Este resultado viene de una prueba en el navegador, no de una llamada en vivo.",
+    "noExpected": "Sin decisión esperada",
+    "outcomeTitle": "Falsos positivos y omisiones",
+    "outcomeHint": "Lo que debía rechazarse y pasó es una omisión. Lo que debía pasar y fue rechazado es un falso positivo.",
+    "viewAudit": "Ver registros de auditoría",
+    "metricsTitle": "Configuración de métricas",
+    "metricsShared": "La misma configuración aparece en todas las páginas de prueba",
+    "metricName": "Nombre de la métrica",
+    "formula": "Fórmula",
+    "addMetric": "Añadir métrica",
+    "formulaError": "Fórmula no válida",
+    "metricVars": "Variables: correct, total, falsePositive, falseNegative, expectedPass, expectedReject, expectedReview, error. Dividir por cero no es válido.",
+    "metric": {
+      "accuracy": "Exactitud",
+      "falsePositiveRate": "Tasa de falsos positivos",
+      "falseNegativeRate": "Tasa de omisiones",
+      "total": "Filas puntuadas"
+    },
+    "outcome": {
+      "correct": "Correcto",
+      "falsePositive": "Falso positivo",
+      "falseNegative": "Omisión",
+      "reviewGap": "Diferencia de revisión",
+      "error": "Error",
+      "unlabeled": "Sin expectativa"
+    },
     "polarity": {
       "all": "Todas",
       "black": "Negra",
@@ -1517,11 +1554,15 @@
       "inputType": "Tipo de entrada",
       "riskLabels": "Etiquetas de riesgo",
       "latencyMs": "Latencia",
-      "id": "Id del registro"
+      "id": "Id del registro",
+      "content": "Contenido",
+      "contentMd5": "MD5 del contenido",
+      "capabilities": "Capacidades"
     },
     "fieldGroup": {
       "record": "Registro",
       "scope": "Alcance",
+      "detect": "Detección",
       "hit": "Aciertos",
       "extra": "Otros campos"
     }

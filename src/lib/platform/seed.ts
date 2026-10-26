@@ -1,4 +1,6 @@
 import { planFromRule, casesForDataset, summarizeCases } from "@/lib/platform/governance";
+import { md5 } from "@/lib/platform/md5";
+import { defaultMetrics } from "@/lib/platform/metrics";
 import { ruleFingerprint } from "@/lib/platform/rules";
 import type {
   AsyncTask,
@@ -1077,10 +1079,23 @@ export function createSeedState(): PrototypeState {
     storageByTenant: { ten_demo: false, ten_retail: false },
     caseReviews: [],
     storedSamples: [],
+    auditRecords,
+    metrics: defaultMetrics,
   });
 }
 
-export const auditRecords: AuditRecord[] = [
+const auditContent: Record<string, string> = {
+  aud_1: "Thanks for the update.",
+  aud_2: "DEMO_BLOCK_TOKEN politics fixture",
+  aud_3: "DEMO_REVIEW_TOKEN assistant reply",
+  aud_4: "comment-image-104.jpg",
+  aud_5: "demo_outage assistant",
+  aud_6: "DEMO_REVIEW_TOKEN community post",
+  aud_7: "comment-image-107.jpg",
+  aud_8: "DEMO_BLOCK_TOKEN adult fixture",
+};
+
+const auditSeed: Array<Omit<AuditRecord, "content" | "contentMd5">> = [
   {
     id: "aud_1",
     requestId: "req_demo_101",
@@ -1218,3 +1233,8 @@ export const auditRecords: AuditRecord[] = [
     trace: ["start", "model_ok", "merge", "end"],
   },
 ];
+
+export const auditRecords: AuditRecord[] = auditSeed.map((record) => {
+  const content = auditContent[record.id] ?? "";
+  return { ...record, content, contentMd5: md5(content) };
+});

@@ -1,13 +1,12 @@
 "use client";
 
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { Disclosure, useScopeLabel } from "@/components/platform/ui";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { presentAudit } from "@/lib/platform/audit-present";
+import { auditGroupFields, presentAudit } from "@/lib/platform/audit-present";
 import { downloadCsv } from "@/lib/platform/csv";
-import { auditRecords } from "@/lib/platform/seed";
 import { usePrototypeStore } from "@/lib/platform/store";
 import type { SampleRecord } from "@/lib/platform/types";
 
@@ -89,12 +88,12 @@ export function fieldsOf(rows: FlatRecord[]) {
 function caseFromHistory(row: FlatRecord): SheetRow {
   const requestId = row.serial || row.requestId || row.id || "";
   const decision = row.decision ?? "";
-  const input =
-    decision === "block"
+  const input = row.content
+    || (decision === "block"
       ? `DEMO_BLOCK_TOKEN ${requestId}`
       : decision === "review"
         ? `DEMO_REVIEW_TOKEN ${requestId}`
-        : `Thanks for the update. ${requestId}`;
+        : `Thanks for the update. ${requestId}`);
   return { input, expected: decision };
 }
 
@@ -232,10 +231,17 @@ function FieldPicker({
   );
 }
 
-function useRecordQuery(rows: FlatRecord[], defaultFields: string[]) {
+function useRecordQuery(rows: FlatRecord[], defaultFields: string[], focus = "") {
   const fields = useMemo(() => fieldsOf(rows), [rows]);
   const [selected, setSelected] = useState<string[]>(defaultFields.filter((field) => fields.includes(field)));
   const [conditions, setConditions] = useState<Record<string, { op: CompareOp; value: string }>>({});
+  const focused = useRef("");
+  useEffect(() => {
+    if (!focus || focused.current === focus) return;
+    focused.current = focus;
+    setSelected((current) => (current.includes("serial") ? current : ["serial", ...current]));
+    setConditions((current) => ({ ...current, serial: { op: "contains", value: focus } }));
+  }, [focus]);
   const matched = useMemo(
     () =>
       rows.filter((row) =>
@@ -329,6 +335,7 @@ export function QueryFields({
   labels = {},
   groups = [],
   hint,
+  focus = "",
   children,
 }: {
   rows: FlatRecord[];
@@ -336,9 +343,10 @@ export function QueryFields({
   labels?: Record<string, string>;
   groups?: FieldGroup[];
   hint?: string;
+  focus?: string;
   children?: (matched: FlatRecord[], selected: string[]) => ReactNode;
 }) {
-  const query = useRecordQuery(rows, defaultFields);
+  const query = useRecordQuery(rows, defaultFields, focus);
   return (
     <div className="space-y-3">
       <FieldPicker
@@ -421,24 +429,25 @@ export function CaseSheetBar({ onLoad }: { onLoad: (rows: SheetRow[]) => void })
   const [limit, setLimit] = useState(20);
   const history = useMemo(
     () =>
-      auditRecords.map((record) =>
+      store.state.auditRecords.map((record) =>
         presentAudit(record, {
           application: store.state.applications.find((item) => item.id === record.applicationId)?.name ?? record.applicationId,
           channel: store.state.channels.find((item) => item.id === record.channelId)?.name ?? record.channelId,
           scene: scope(record.sceneId),
+          capability: (id) => store.state.capabilities.find((item) => item.id === id)?.customName || id,
         })
       ),
-    [scope, store.state.applications, store.state.channels]
+    [scope, store.state.applications, store.state.auditRecords, store.state.capabilities, store.state.channels]
   );
   const labels = useMemo(
     () => Object.fromEntries(history.length ? Object.keys(history[0]).map((field) => [field, t(`auditField.${field}`)]) : []),
     [history, t]
   );
-  const groups: FieldGroup[] = [
-    { id: "record", label: t("fieldGroup.record"), fields: ["serial", "createdAt", "id"] },
-    { id: "scope", label: t("fieldGroup.scope"), fields: ["application", "channel", "scene"] },
-    { id: "hit", label: t("fieldGroup.hit"), fields: ["decision", "ruleIds", "status", "inputType", "riskLabels", "latencyMs"] },
-  ];
+  const groups: FieldGroup[] = auditGroupFields.map((group) => ({
+    id: group.id,
+    label: t(`fieldGroup.${group.id}`),
+    fields: [...group.fields],
+  }));
   const query = useRecordQuery(history, ["serial", "decision", "channel"]);
   const capped = clampLimit(limit);
 

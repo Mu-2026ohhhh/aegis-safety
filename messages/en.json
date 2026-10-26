@@ -101,6 +101,7 @@
     "intentWhitepaper": "EU AI Act whitepaper",
     "intentDemo": "Book a demo",
     "intentAnalytics": "High-volume analytics access",
+    "intentSandbox": "Sandbox unlock",
     "submit": "Submit request",
     "submitting": "Submitting…",
     "successTitle": "Request received",
@@ -108,7 +109,8 @@
     "close": "Close",
     "namePlaceholder": "Alex Morgan",
     "emailPlaceholder": "alex@company.com",
-    "companyPlaceholder": "Acme Platforms"
+    "companyPlaceholder": "Acme Platforms",
+    "error": "The request was not saved. Try again."
   },
   "Pricing": {
     "eyebrow": "Pricing",

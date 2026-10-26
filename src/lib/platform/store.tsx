@@ -5,6 +5,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -17,10 +18,14 @@ import {
   summarizeCases,
 } from "@/lib/platform/governance";
 import { createId } from "@/lib/platform/hash";
+import { md5 } from "@/lib/platform/md5";
+import { mergeMetrics, type MetricDefinition } from "@/lib/platform/metrics";
 import type { RuleDraft } from "@/lib/platform/rule-draft";
 import { ruleFingerprint, validateRuleDraft } from "@/lib/platform/rules";
 import { datasets, createSeedState } from "@/lib/platform/seed";
+import { isPrototypeState as isState } from "@/lib/platform/state-guard";
 import type {
+  AuditRecord,
   Capability,
   CapabilityType,
   CaseReview,
@@ -51,6 +56,7 @@ import {
 } from "@/lib/platform/workflow-engine";
 
 const STORAGE_KEY = "aegis_prototype_state_v1";
+const SAVED_AT_KEY = "aegis_prototype_saved_at_v1";
 
 type Result<T> = { ok: true; data: T } | { ok: false; error: string };
 
@@ -129,28 +135,14 @@ type StoreValue = {
   importLabels: (labels: ContentLabel[]) => void;
   saveQuery: (query: SavedQuery) => Result<{ id: string }>;
   deleteQuery: (id: string) => void;
+  recordAudits: (records: AuditRecord[]) => void;
+  saveMetrics: (metrics: MetricDefinition[]) => void;
   saveCaseReview: (review: CaseReview) => void;
   rememberSample: (sample: StoredSample) => void;
   rollbackCapability: (capabilityId: string) => Result<{ id: string }>;
 };
 
 const StoreContext = createContext<StoreValue | null>(null);
-
-function isState(value: unknown): value is PrototypeState {
-  if (!value || typeof value !== "object") return false;
-  const record = value as Partial<PrototypeState>;
-  return (
-    Array.isArray(record.rules) &&
-    Array.isArray(record.ruleVersions) &&
-    Array.isArray(record.workflows) &&
-    Array.isArray(record.workflowVersions) &&
-    Array.isArray(record.capabilities) &&
-    Array.isArray(record.evaluations) &&
-    Array.isArray(record.executionPlans) &&
-    Array.isArray(record.releases) &&
-    Array.isArray(record.tasks)
-  );
-}
 
 function fillModelConfig(config: RuleConfig): RuleConfig {
   if (config.type !== "model_threshold") return config;
@@ -261,6 +253,21 @@ function hydrateState(value: PrototypeState): PrototypeState {
     })),
     llmCases: value.llmCases?.length ? value.llmCases : seed.llmCases,
     savedQueries: value.savedQueries?.length ? value.savedQueries : seed.savedQueries,
+    auditRecords: mergeById(value.auditRecords, seed.auditRecords).map((item) => {
+      const match = seed.auditRecords.find((entry) => entry.id === item.id);
+      const content = item.content || match?.content || "";
+      return {
+        ...item,
+        channelId: item.channelId || match?.channelId || "",
+        content,
+        contentMd5: item.contentMd5 || match?.contentMd5 || (content ? md5(content) : ""),
+        modelCalls: item.modelCalls ?? [],
+        ruleHits: item.ruleHits ?? [],
+        riskLabels: item.riskLabels ?? [],
+        trace: item.trace ?? [],
+      };
+    }),
+    metrics: mergeMetrics(value.metrics),
     channels: (value.channels?.length ? value.channels : seed.channels).map((item) => {
       const match = seed.channels.find((entry) => entry.id === item.id);
       return {
@@ -309,26 +316,135 @@ function versionFromDraft(
   };
 }
 
+function combineStates(local: PrototypeState, remote: PrototypeState): PrototypeState {
+  const reviews = [...local.caseReviews];
+  const seen = new Set(reviews.map((item) => `${item.runId}:${item.sampleId}`));
+  for (const item of remote.caseReviews ?? []) {
+    const key = `${item.runId}:${item.sampleId}`;
+    if (!seen.has(key)) reviews.push(item);
+  }
+  const localLlm = local.llm?.updatedAt ?? "";
+  const remoteLlm = remote.llm?.updatedAt ?? "";
+  return {
+    ...remote,
+    ...local,
+    rules: mergeById(local.rules, remote.rules),
+    ruleVersions: mergeById(local.ruleVersions, remote.ruleVersions),
+    workflows: mergeById(local.workflows, remote.workflows),
+    workflowVersions: mergeById(local.workflowVersions, remote.workflowVersions),
+    capabilities: mergeById(local.capabilities, remote.capabilities),
+    evaluations: mergeById(local.evaluations, remote.evaluations),
+    executionPlans: mergeById(local.executionPlans, remote.executionPlans),
+    releases: mergeById(local.releases, remote.releases),
+    tasks: mergeById(local.tasks, remote.tasks),
+    templates: mergeById(local.templates, remote.templates),
+    labels: mergeById(local.labels, remote.labels),
+    variables: mergeById(local.variables, remote.variables),
+    libraries: mergeById(local.libraries, remote.libraries),
+    knowledge: mergeById(local.knowledge, remote.knowledge),
+    prompts: mergeById(local.prompts, remote.prompts),
+    ragEntries: mergeById(local.ragEntries, remote.ragEntries),
+    llmCases: mergeById(local.llmCases, remote.llmCases),
+    savedQueries: mergeById(local.savedQueries, remote.savedQueries),
+    samples: mergeById(local.samples, remote.samples),
+    auditRecords: mergeById(local.auditRecords, remote.auditRecords),
+    metrics: mergeById(local.metrics, remote.metrics),
+    tenants: mergeById(local.tenants, remote.tenants),
+    applications: mergeById(local.applications, remote.applications),
+    channels: mergeById(local.channels, remote.channels),
+    storedSamples: mergeById(local.storedSamples, remote.storedSamples),
+    caseReviews: reviews,
+    llm: localLlm >= remoteLlm ? local.llm : remote.llm,
+    storageByTenant: { ...remote.storageByTenant, ...local.storageByTenant },
+  };
+}
+
 export function PrototypeStoreProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<PrototypeState>(() => createSeedState());
   const [ready, setReady] = useState(false);
+  const pendingPush = useRef(false);
+  const seen = useRef<string | null>(null);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw) as unknown;
-        if (isState(parsed)) setState(hydrateState(parsed));
+    let cancelled = false;
+    async function load() {
+      let local: PrototypeState | null = null;
+      let localSavedAt = "";
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        localSavedAt = localStorage.getItem(SAVED_AT_KEY) ?? "";
+        if (raw) {
+          const parsed = JSON.parse(raw) as unknown;
+          if (isState(parsed)) local = hydrateState(parsed);
+        }
+      } catch {
+        local = null;
       }
-    } catch {
-      // Ignore corrupt prototype storage and keep the seed.
+      let remote: PrototypeState | null = null;
+      let remoteSavedAt = "";
+      try {
+        const response = await fetch("/api/state", { cache: "no-store" });
+        if (response.ok) {
+          const body = (await response.json()) as { savedAt?: unknown; state?: unknown };
+          if (typeof body.savedAt === "string" && isState(body.state)) {
+            remote = hydrateState(body.state);
+            remoteSavedAt = body.savedAt;
+          }
+        }
+      } catch {
+        remote = null;
+      }
+      if (cancelled) return;
+      let next = createSeedState();
+      let push = false;
+      if (local && remote) {
+        if (!localSavedAt) {
+          next = hydrateState(combineStates(local, remote));
+          push = true;
+        } else if (localSavedAt >= remoteSavedAt) {
+          next = local;
+          push = localSavedAt > remoteSavedAt;
+        } else {
+          next = remote;
+          localStorage.setItem(SAVED_AT_KEY, remoteSavedAt);
+        }
+      } else if (local) {
+        next = local;
+        push = true;
+      } else if (remote) {
+        next = remote;
+        localStorage.setItem(SAVED_AT_KEY, remoteSavedAt);
+      } else {
+        push = true;
+      }
+      pendingPush.current = push;
+      setState(next);
+      setReady(true);
     }
-    setReady(true);
+    void load();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
     if (!ready) return;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    const json = JSON.stringify(state);
+    localStorage.setItem(STORAGE_KEY, json);
+    const initial = seen.current === null;
+    seen.current = json;
+    if (initial && !pendingPush.current) return;
+    pendingPush.current = false;
+    const savedAt = new Date().toISOString();
+    localStorage.setItem(SAVED_AT_KEY, savedAt);
+    const timer = window.setTimeout(() => {
+      void fetch("/api/state", {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ savedAt, state }),
+      });
+    }, initial ? 0 : 400);
+    return () => window.clearTimeout(timer);
   }, [ready, state]);
 
   const api = useMemo<StoreValue>(() => {
@@ -337,8 +453,10 @@ export function PrototypeStoreProvider({ children }: { children: ReactNode }) {
       state,
       reset: () => {
         const next = createSeedState();
-        setState(next);
+        const savedAt = new Date().toISOString();
         localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+        localStorage.setItem(SAVED_AT_KEY, savedAt);
+        setState(next);
       },
       createRule: (draft) => {
         const errors = validateRuleDraft(draft);
@@ -1240,6 +1358,19 @@ export function PrototypeStoreProvider({ children }: { children: ReactNode }) {
           ...current,
           savedQueries: current.savedQueries.filter((item) => item.id !== id),
         }));
+      },
+      recordAudits: (records) => {
+        setState((current) => {
+          const seen = new Set(current.auditRecords.map((item) => item.requestId));
+          const fresh = records.filter((item) => item.requestId && !seen.has(item.requestId));
+          if (!fresh.length) return current;
+          return { ...current, auditRecords: [...fresh, ...current.auditRecords].slice(0, 300) };
+        });
+      },
+      saveMetrics: (metrics) => {
+        const next = metrics.filter((item) => item.id && item.formula.trim());
+        if (!next.length) return;
+        setState((current) => ({ ...current, metrics: next }));
       },
       saveCaseReview: (review) => {
         setState((current) => ({

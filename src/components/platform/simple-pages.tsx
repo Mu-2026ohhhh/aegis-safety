@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { PublicShell } from "@/components/platform/public-shell";
 import { CodeBlock, Field, PrototypeBanner } from "@/components/platform/ui";
 import { Button } from "@/components/ui/button";
@@ -94,14 +94,17 @@ export function PricingView() {
 
 export function ContactView() {
   const t = useTranslations("Contact");
+  const locale = useLocale();
   const [company, setCompany] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [need, setNeed] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
   const [done, setDone] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState(false);
 
-  function submit(event: React.FormEvent) {
+  async function submit(event: React.FormEvent) {
     event.preventDefault();
     const next: string[] = [];
     if (!company.trim()) next.push("company");
@@ -109,7 +112,25 @@ export function ContactView() {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) next.push("email");
     if (need.trim().length < 12) next.push("need");
     setErrors(next);
-    setDone(next.length === 0);
+    setSaveError(false);
+    if (next.length > 0) return;
+    setSaving(true);
+    try {
+      const response = await fetch("/api/inquiries", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ kind: "contact", company, name, email, need, locale }),
+      });
+      if (!response.ok) {
+        setSaveError(true);
+        return;
+      }
+      setDone(true);
+    } catch {
+      setSaveError(true);
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -140,7 +161,10 @@ export function ContactView() {
             <Field label={t("need")} error={errors.includes("need") ? t("needError") : undefined}>
               <Textarea value={need} onChange={(event) => setNeed(event.target.value)} />
             </Field>
-            <Button type="submit">{t("submit")}</Button>
+            {saveError ? <p className="text-sm text-rose-700">{t("saveError")}</p> : null}
+            <Button type="submit" disabled={saving}>
+              {saving ? t("submitting") : t("submit")}
+            </Button>
           </form>
         )}
       </div>
